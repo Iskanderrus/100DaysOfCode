@@ -34,6 +34,8 @@ if turn == 'left':
             print('Wrong door - there was a dragon there. Game over')
         elif door == 'blue':
             print('Wrong door - there was a knight there. Game over')
+        else:
+            print('There is no such door. You lose. Game over')
     else:
         print('A huge alligator ate you. Game over')
 else:
