@@ -1,7 +1,7 @@
 from random import randint
 import emoji
 
-options = [":raised_fist:", ":victory_hand:", ":palm_down_hand:"]
+options = [":rock:", ":victory_hand:", ":palm_down_hand:"]
 computer_choice = randint(1, 3)
 
 try:
