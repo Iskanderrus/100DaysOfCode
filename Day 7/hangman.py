@@ -82,35 +82,34 @@ def hangman_drawer(counter):
     print(stages[counter])
 
 
-while counter < 7:
-    if '_' in substitute:
-        letter = input('Guess a letter:\n').lower()
+while '_' in substitute:
+    if counter == 7:
+        print('You have lost. The poor man is dead (((')
+    letter = input('Guess a letter:\n').lower()
 
-        if letter not in lower:
-            print('This is not a valid letter')
-            hangman_drawer(counter)
-            counter += 1
+    if letter not in lower:
+        print('This is not a valid letter')
+        hangman_drawer(counter)
+        counter += 1
 
-        elif letter in guessed_letters:
-            print('Do not repeat yourself.')
-            hangman_drawer(counter)
-            counter += 1
+    elif letter in guessed_letters:
+        print('Do not repeat yourself.')
+        hangman_drawer(counter)
+        counter += 1
 
-        elif letter not in word:
-            print('You are wrong. This letter is not in our word.')
-            hangman_drawer(counter)
-            counter += 1
-
-        else:
-            indexes = find_indices(word, letter)
-            substitute = letter_replacer(indexes, substitute_list, letter=letter)
-            print(f"You are right.\n{substitute}")
-
-        guessed_letters.add(letter)
+    elif letter not in word:
+        print('You are wrong. This letter is not in our word.')
+        hangman_drawer(counter)
+        counter += 1
 
     else:
-        print('You won!!! Congratulations!!!')
-        break
+        indexes = find_indices(word, letter)
+        substitute = letter_replacer(indexes, substitute_list, letter=letter)
+        print(f"You are right.\n{substitute}")
 
-if counter == 7:
-    print('You have lost. The poor man is dead (((')
+    guessed_letters.add(letter)
+
+print('You won!!! Congratulations!!!')
+
+
+
