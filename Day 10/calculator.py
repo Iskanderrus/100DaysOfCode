@@ -92,7 +92,7 @@ while make_calculations:
         continue
 
     clear_screen()
-    print(f'Correct answer is: {answer:.2f}')
+    print(f'{num_a} {action} {num_b} = {answer:.2f}')
     check_alert = continue_check()
 
     if check_alert == 'yes':
