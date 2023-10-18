@@ -6,6 +6,8 @@ def name_formatter(first_name: str, last_name: str, *middle_names: str) -> str:
     :param middle_names: Middle name(s) of the user
     :return: String of formatted user full name
     """
+    if not first_name or not last_name:
+        return "No inputs."
     # Capitalize and strip spaces for first name and last name
     formatted_first_name = first_name.strip().title()
     formatted_last_name = last_name.strip().title()
@@ -21,6 +23,7 @@ def name_formatter(first_name: str, last_name: str, *middle_names: str) -> str:
 
 
 # Test cases
+print(name_formatter(input('What is your first name? '), input('What is your last name? '), input('What are your middle names? ')))
 print(name_formatter('   AlexanDER', '          ChAsOvSkOy', 'NiKoLaYEvich'))
 print(name_formatter('   AlexanDER', '          ChAsOvSkOy'))
 print(name_formatter('   AlexanDER', '          ChAsOvSkOy',
