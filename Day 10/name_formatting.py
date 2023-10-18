@@ -23,8 +23,14 @@ def name_formatter(first_name: str, last_name: str, *middle_names: str) -> str:
 
 
 # Test cases
-print(name_formatter(input('What is your first name? '), input('What is your last name? '), input('What are your middle names? ')))
-print(name_formatter('   AlexanDER', '          ChAsOvSkOy', 'NiKoLaYEvich'))
-print(name_formatter('   AlexanDER', '          ChAsOvSkOy'))
-print(name_formatter('   AlexanDER', '          ChAsOvSkOy',
+print(name_formatter(input('What is your first name? '),
+                     input('What is your last name? '),
+                     input('What are your middle names? ')))
+print(name_formatter('   AlexanDER',
+                     '          ChAsOvSkOy',
+                     'NiKoLaYEvich'))
+print(name_formatter('   AlexanDER',
+                     '          ChAsOvSkOy'))
+print(name_formatter('   AlexanDER',
+                     '          ChAsOvSkOy',
                      'NiKoLaYEvich          Abdelsalekh Elena    Maria     Garcia'))
