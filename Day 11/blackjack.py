@@ -1,7 +1,15 @@
 from random import choice
+import os
 
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 game_on = True
+
+
+def clear_screen():
+    """
+    A function to clear the screen when required. Works in Terminal only.
+    """
+    os.system('clear')
 
 
 def calculate_score(cards_list: list) -> int:
@@ -27,18 +35,18 @@ def draw_card(cards_list: list) -> int:
     return choice(cards_list)
 
 
-def compare_score(player_score, computer_score):
-    if player_score == computer_score:
+def compare_score(player_score_list, computer_score_list):
+    if player_score_list == computer_score_list:
         return "Draw!"
-    elif computer_score == 0:
+    elif computer_score_list == 0:
         return "Lose, opponent has Blackjack..."
-    elif player_score == 0:
+    elif player_score_list == 0:
         return "Win with a Blackjack!"
-    elif player_score > 21:
+    elif player_score_list > 21:
         return "You went over. You lose..."
-    elif computer_score > 21:
+    elif computer_score_list > 21:
         return "Opponent went over. You win!"
-    elif player_score > computer_score:
+    elif player_score_list > computer_score_list:
         return "You win!"
     else:
         return "You lose..."
@@ -66,6 +74,7 @@ while game_on:
         player_should_deal = input('Type "yes" to get another card, type "n" to pass: ')
         if player_should_deal.strip().lower() == 'y':
             player_cards.append(draw_card(cards))
+            clear_screen()
         else:
             game_on = False
 
@@ -73,4 +82,7 @@ while computer_score != 0 and computer_score < 17:
     computer_cards.append(draw_card(cards))
     computer_score = calculate_score(computer_cards)
 
-print(compare_score(player_score=player_score, computer_score=computer_score))
+clear_screen()
+print(f'\t Your final hand: \t\t{player_cards}\n\t Your final score: \t\t{player_score}\n\n')
+print(f'\t Computer\'s final hand: \t{computer_cards}\n\t Computer\'s final score: \t{computer_score}\n')
+print(compare_score(player_score_list=player_score, computer_score_list=computer_score))
