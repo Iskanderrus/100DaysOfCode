@@ -33,28 +33,38 @@ def draw_card(cards_list: list) -> int:
     return choice(cards_list)
 
 
-def compare_score(player_score_list, computer_score_list):
-    if player_score_list == computer_score_list:
+def compare_score(player_score_int: int, computer_score_int: int):
+    """
+    Function to compare scores of the player and the computer.
+    :param player_score_int: Player's score as an integer
+    :param computer_score_int: Computer's score as an integer
+    :return: Message to be printed depending on the result of comparison
+    """
+    if player_score_int == computer_score_int:
         return "Draw!"
-    elif computer_score_list == 0:
+    elif computer_score_int == 0:
         return (f"Lose, opponent has Blackjack... "
                 f"{emoji.emojize(':squinting_face_with_tongue:')}"
                 f"{emoji.emojize(':crying_face:')}")
-    elif player_score_list == 0:
+    elif player_score_int == 0:
         return (f"Win with a Blackjack! "
                 f"{emoji.emojize(':smiling_face_with_sunglasses:')}"
                 f"{emoji.emojize(':star-struck:')}")
-    elif player_score_list > 21:
+    elif player_score_int > 21:
         return f"You went over. You lose... {emoji.emojize(':crying_face:')}"
-    elif computer_score_list > 21:
+    elif computer_score_int > 21:
         return f"Opponent went over. You win! {emoji.emojize(':smiling_face_with_sunglasses:')}"
-    elif player_score_list > computer_score_list:
+    elif player_score_int > computer_score_int:
         return f"You win! {emoji.emojize(':smiling_face_with_sunglasses:')}"
     else:
         return "You lose..."
 
 
 def play_blackjack():
+    """
+    Main function to perform the Blackjack game
+    :return: None
+    """
     cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
     game_on = True
     player_cards = []
@@ -90,7 +100,7 @@ def play_blackjack():
     clear_screen()
     print(f'\t Your final hand: \t\t{player_cards}\n\t Your final score: \t\t{player_score}\n\n')
     print(f'\t Computer\'s final hand: \t{computer_cards}\n\t Computer\'s final score: \t{computer_score}\n')
-    print(compare_score(player_score_list=player_score, computer_score_list=computer_score))
+    print(compare_score(player_score_int=player_score, computer_score_int=computer_score))
 
 
 while input('Do you want to play BlackJack? If yes, type "y" ').strip().lower() == 'y':
