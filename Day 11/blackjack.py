@@ -1,8 +1,6 @@
 from random import choice
 import os
-
-cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
-game_on = True
+import emoji
 
 
 def clear_screen():
@@ -39,50 +37,63 @@ def compare_score(player_score_list, computer_score_list):
     if player_score_list == computer_score_list:
         return "Draw!"
     elif computer_score_list == 0:
-        return "Lose, opponent has Blackjack..."
+        return (f"Lose, opponent has Blackjack... "
+                f"{emoji.emojize(':squinting_face_with_tongue:')}"
+                f"{emoji.emojize(':crying_face:')}")
     elif player_score_list == 0:
-        return "Win with a Blackjack!"
+        return (f"Win with a Blackjack! "
+                f"{emoji.emojize(':smiling_face_with_sunglasses:')}"
+                f"{emoji.emojize(':star-struck:')}")
     elif player_score_list > 21:
-        return "You went over. You lose..."
+        return f"You went over. You lose... {emoji.emojize(':crying_face:')}"
     elif computer_score_list > 21:
-        return "Opponent went over. You win!"
+        return f"Opponent went over. You win! {emoji.emojize(':smiling_face_with_sunglasses:')}"
     elif player_score_list > computer_score_list:
-        return "You win!"
+        return f"You win! {emoji.emojize(':smiling_face_with_sunglasses:')}"
     else:
         return "You lose..."
 
 
-player_cards = []
-computer_cards = []
+def play_blackjack():
+    cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+    game_on = True
+    player_cards = []
+    computer_cards = []
 
-for _ in range(2):
-    player_cards.append(draw_card(cards))
-    computer_cards.append(draw_card(cards))
-player_score = 0
-computer_score = 0
+    for _ in range(2):
+        player_cards.append(draw_card(cards))
+        computer_cards.append(draw_card(cards))
+    player_score = 0
+    computer_score = 0
 
-while game_on:
-    player_score = calculate_score(player_cards)
-    computer_score = calculate_score(computer_cards)
+    while game_on:
+        player_score = calculate_score(player_cards)
+        computer_score = calculate_score(computer_cards)
 
-    print('Player cards ', player_cards)
-    print('Player score ', player_score)
-    print('Computer\'s card ', computer_cards[0])
-    if player_score == 0 or computer_score == 0 or player_score > 21:
-        game_on = False
-    else:
-        player_should_deal = input('Type "yes" to get another card, type "n" to pass: ')
-        if player_should_deal.strip().lower() == 'y':
-            player_cards.append(draw_card(cards))
-            clear_screen()
-        else:
+        print('Player cards ', player_cards)
+        print('Player score ', player_score)
+        print('Computer\'s card ', computer_cards[0])
+        if player_score == 0 or computer_score == 0 or player_score > 21:
             game_on = False
+        else:
+            player_should_deal = input('Type "yes" to get another card, type "n" to pass: ')
+            if player_should_deal.strip().lower() == 'y':
+                player_cards.append(draw_card(cards))
+                clear_screen()
+            else:
+                game_on = False
 
-while computer_score != 0 and computer_score < 17:
-    computer_cards.append(draw_card(cards))
-    computer_score = calculate_score(computer_cards)
+    while computer_score != 0 and computer_score < 17:
+        computer_cards.append(draw_card(cards))
+        computer_score = calculate_score(computer_cards)
 
+    clear_screen()
+    print(f'\t Your final hand: \t\t{player_cards}\n\t Your final score: \t\t{player_score}\n\n')
+    print(f'\t Computer\'s final hand: \t{computer_cards}\n\t Computer\'s final score: \t{computer_score}\n')
+    print(compare_score(player_score_list=player_score, computer_score_list=computer_score))
+
+
+while input('Do you want to play BlackJack? If yes, type "y" ').strip().lower() == 'y':
+    clear_screen()
+    play_blackjack()
 clear_screen()
-print(f'\t Your final hand: \t\t{player_cards}\n\t Your final score: \t\t{player_score}\n\n')
-print(f'\t Computer\'s final hand: \t{computer_cards}\n\t Computer\'s final score: \t{computer_score}\n')
-print(compare_score(player_score_list=player_score, computer_score_list=computer_score))
