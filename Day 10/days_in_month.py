@@ -31,10 +31,13 @@ try:
     check_year = int(input('Which year do you want to check?\n'))
     check_month = int(input('Which month are you going to check? 01... 12\n'))
 
+except ValueError:
+    print('Please provide valid integer values for year and month.')
+
+else:
     # Check if month number within 1...12 range
-    if 1 >= check_month >= 12:
+    if check_month not in range(1, 13):
         print('Please provide correct number for the month')
     else:
         print(f'{check_month:02d}.{check_year} has {days_in_month(check_year, check_month)} days')
-except ValueError:
-    print('Please provide valid integer values for year and month.')
+
