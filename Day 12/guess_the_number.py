@@ -49,10 +49,7 @@ def comparison(num_1: int, num_2: int) -> str:
 
 def guess_game(attempts, target_number):
     while attempts > 0:
-        if attempts != 1:
-            print(f'\nYou have {attempts} attempts.')
-        else:
-            print(f'\nYou have {attempts} attempt.')
+        print(f'\nYou have {attempts} {"attempts" if attempts != 1 else "attempt"} left.')
 
         try:
             user_guess = int(input('Make a guess: '))
@@ -71,7 +68,7 @@ def guess_game(attempts, target_number):
                 if attempts > 0:
                     print(f'Your number is {compared}. Try again.')
                 else:
-                    print('You are out of attempts. You lose')
+                    print(f'You are out of attempts. Targen number was {target_number}. You lose.')
 
 
 if __name__ == '__main__':
