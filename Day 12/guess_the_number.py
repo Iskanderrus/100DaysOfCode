@@ -8,6 +8,10 @@ The game has two levels:
 """
 from random import randint
 
+# Number of attempts depending on the level difficulty
+EASY_LEVEL = 10
+HARD_LEVEL = 5
+
 
 def difficulty_check():
     """
@@ -17,8 +21,8 @@ def difficulty_check():
     """
     difficulty = input('Choose a difficulty level. Type "easy" or "hard": ').lower().strip()
     levels = {
-        "easy": 10,
-        "hard": 5,
+        "easy": EASY_LEVEL,
+        "hard": HARD_LEVEL,
     }
 
     if difficulty in levels.keys():
