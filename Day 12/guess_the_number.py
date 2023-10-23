@@ -7,6 +7,7 @@ The game has two levels:
 
 """
 from random import randint
+from art import logo
 
 # Number of attempts depending on the level difficulty
 EASY_LEVEL = 10
@@ -73,6 +74,7 @@ def guess_game(attempts, target_number):
 
 if __name__ == '__main__':
     secret_number = randint(1, 100)
+    print(logo)
     print('Welcome to the Number Guessing Game!')
     print("I'm thinking on a number between 1 and 100.")
     num_attempts = difficulty_check()
