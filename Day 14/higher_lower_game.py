@@ -53,11 +53,11 @@ def higher_lower_game(list_of_dictionaries, main_logo, vs_sign) -> None:
             print(f'\nYour score is: {score}')
         # main interface menu
         print(f"\nCompare A: {person_1['name'].strip().title()}, "
-              f"who is {person_1['description'].lower().strip()} "
+              f"who is {person_1['description'].strip()} "
               f"from {person_1['country'].strip().title()}.")
         print(vs_sign)
         print(f"Compare B: {person_2['name'].strip().title()}, "
-              f"who is {person_2['description'].lower().strip()} "
+              f"who is {person_2['description'].strip()} "
               f"from {person_2['country'].strip().title()}.")
 
         answer = input('Who has more followers? Type a or b: ').strip().lower()
@@ -79,7 +79,7 @@ def higher_lower_game(list_of_dictionaries, main_logo, vs_sign) -> None:
     continue_game = play_again()
     if continue_game:
         clear_screen()
-        higher_lower_game()
+        higher_lower_game(list_of_dictionaries=data, main_logo=logo, vs_sign=vs)
     else:
         clear_screen()
         message = 'Thank you for the game. See you soon again!'
