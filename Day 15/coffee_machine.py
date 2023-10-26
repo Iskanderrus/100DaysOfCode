@@ -180,7 +180,7 @@ def main_operation():
             report_call()
             quit_report()
 
-        # reset the coffee machine
+        # switch off the coffee machine
         elif user_request == 'q':
             clear_screen()
             sys.exit()
