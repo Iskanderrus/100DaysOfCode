@@ -1,5 +1,4 @@
 import os
-import sys
 import time
 
 SALES = 0
@@ -30,7 +29,7 @@ MENU = {
 }
 
 resources = {
-    "water": 45,
+    "water": 4500,
     "milk": 2000,
     "coffee": 500,
 }
@@ -123,7 +122,6 @@ def payment(menu, drink) -> float:
         except ValueError:
             print('All inserted coins are returned.')
             print('Please, make sure to insert a valid coin.')
-            payment(menu, drink)
         else:
             paid_amount += ((quarters * 0.25) + (dimes * 0.10) + (nickles * 0.05) + (pennies * 0.01))
             BANK['quarters'] += quarters
@@ -167,39 +165,35 @@ def quit_report():
         main_operation()
 
 
-def main_operation():
-    clear_screen()
-    global SALES, MENU, failure_counter, resources
-    if resources['water'] < 50 or resources['coffee'] < 18:
-        print("I'm sorry. We are completely out of ingredients. Please come back later.")
-    else:
+def main_operation(sales_data, menu_data, failures, resources_data, drinks_counter):
+    while True:
+        clear_screen()
         user_request = input('What would you like (espresso/latte/cappuccino)?\n').strip().lower()
-
-        # calling a report for service
         if user_request == 'report':
             report_call()
             quit_report()
 
-        # switch off the coffee machine
-        elif user_request == 'q':
-            clear_screen()
-            sys.exit()
+            # switch off the coffee machine
+        elif user_request == 'off':
+            print('Switching off...')
+            time.sleep(3)
+            break
 
-        # customer service operation
+            # customer service operation
         elif user_request in MENU.keys():
-            if resources_check(resources, MENU, user_request):
-                print(f"A cup of your favourite {user_request.title()} has price of ${MENU[user_request]['cost']}")
-                resources = reduce_resources(MENU, user_request, resources)
-                SOLD_DRINKS[user_request] += 1
-                SALES += payment(menu=MENU, drink=user_request)
+            if resources_check(resources_data, menu_data, user_request):
+                print(f"A cup of your favourite {user_request.title()} has price of ${menu_data[user_request]['cost']}")
+                resources_data = reduce_resources(menu_data, user_request, resources_data)
+                drinks_counter[user_request] += 1
+                sales_data += payment(menu=menu_data, drink=user_request)
+                time.sleep(3)
             else:
-                failure_counter[user_request] += 1
+                failures[user_request] += 1
 
         else:
             print('This drink is not in our menu. Please make a valid choice.')
-        time.sleep(5)
-        main_operation()
+            time.sleep(3)
 
 
 if __name__ == '__main__':
-    main_operation()
+    main_operation(sales_data=SALES, menu_data=MENU, failures=failure_counter, resources_data=resources, drinks_counter=SOLD_DRINKS)
