@@ -4,9 +4,11 @@ from random import randint
 from turtle import Turtle, Screen
 from score_board import ScoreBoard
 from food import Food
+from snake import Snake
 
 
 score = 0
+
 # Screen setup
 screen = Screen()
 screen.setup(width=600, height=600)
@@ -26,17 +28,13 @@ snake_body = []
 home_x = 0
 
 for x in range(3):
-    segment = Turtle(shape='square')
-    segment.penup()
-    segment.color('white')
-    segment.shapesize(0.5, 0.5)
+    segment = Snake()
     segment.setx(home_x - 10 * x)
     snake_body.append(segment)
 
 # Making the snake move
 game_is_on = True
 
-food.goto(randint(5, 595), randint(5, 595))
 
 while game_is_on:
     screen.update()
