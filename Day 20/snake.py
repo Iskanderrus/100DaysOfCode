@@ -61,8 +61,8 @@ class Snake:
             self.tail_adjustment()
 
     def tail_adjustment(self):
-        width = 0.5
-        length = width * 1.3
+        width = 0.55
+        length = 0.5
         self.snake_body[-1].shapesize(width, length)
 
     def is_collided_with(self, b):
