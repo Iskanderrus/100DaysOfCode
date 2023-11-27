@@ -24,8 +24,14 @@ food = Food()
 
 # Set up the snake
 snake = Snake()
+screen.listen()
 
 # Making the snake move
+screen.onkeypress(snake.up, "Up")
+screen.onkeypress(snake.down, "Down")
+screen.onkeypress(snake.left, "Left")
+screen.onkeypress(snake.right, "Right")
+
 game_is_on = True
 
 while game_is_on:
