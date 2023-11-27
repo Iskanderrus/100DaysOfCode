@@ -10,5 +10,10 @@ class Food(Turtle):
         self.penup()
         self.shape('turtle')
         self.shapesize(0.5, 0.5)
+        self.speed('fastest')
         self.color(choice(['green', 'yellow', 'orange', 'blue', 'purple']))
-        self.goto(randint(-295, 295), randint(-295, 275))
+        self.refresh()
+
+    def refresh(self):
+        self.color(choice(['green', 'yellow', 'orange', 'blue', 'purple']))
+        self.goto(randint(-280, 280), randint(-280, 280))

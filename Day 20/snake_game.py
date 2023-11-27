@@ -6,18 +6,22 @@ from food import Food
 from score_board import ScoreBoard
 from snake import Snake
 
-score = 0
 
 # Screen setup
-screen = Screen()
-screen.setup(width=600, height=600)
-screen.bgcolor('black')
-screen.title("Snake game")
-screen.tracer(0)
+def create_screen():
+    screen_instance = Screen()
+    screen_instance.setup(width=600, height=600)
+    screen_instance.bgcolor('black')
+    screen_instance.title("Snake game")
+    screen_instance.tracer(0)
+    return screen_instance
+
+
+screen = create_screen()
+user_name = screen.textinput("Provide your name", "What is your name?")
 
 # Scoreboard initialization
-scoreboard = ScoreBoard()
-scoreboard.goto(scoreboard.shapesize()[1] / 2, screen.window_height() / 2 - 35)
+scoreboard = ScoreBoard(user_name=user_name)
 
 # Food initialize
 food = Food()
@@ -37,7 +41,28 @@ game_is_on = True
 while game_is_on:
     screen.update()
     time.sleep(0.1)
-    scoreboard.write(f"Score: {score}", align='center', font=('Arial', 20, 'bold'))
     snake.move()
+    food_color = food.color()[0]
+
+    if snake.is_collided_with(food):
+        snake.grow()
+        for section in snake.snake_body[1:]:
+            section.color(food_color)
+        snake.snake_speed *= 1.001
+        scoreboard.increase_score()
+
+        food.refresh()
+    if snake.head.xcor() > 285 or snake.head.xcor() < -285 or snake.head.ycor() > 285 or snake.head.ycor() < -285:
+        game_is_on = False
+        screen.clear()
+        create_screen()
+        scoreboard.game_over()
+
+    for segment in snake.snake_body[1:]:
+        if snake.head.distance(segment) < 10:
+            game_is_on = False
+            screen.clear()
+            create_screen()
+            scoreboard.game_over()
 
 screen.exitonclick()
