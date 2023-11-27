@@ -1,3 +1,4 @@
+# בס״ד
 import sys
 import time
 from random import shuffle, randint
