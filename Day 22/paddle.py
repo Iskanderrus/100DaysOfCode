@@ -1,4 +1,5 @@
 # בס״ד
+
 from turtle import Turtle
 
 
@@ -21,7 +22,6 @@ class Paddle(Turtle):
             self.setx(-(self.screen_width / 2) + 10)
         elif self.side == 'right':
             self.setx((self.screen_width / 2) - 14)
-
 
     def up(self):
         if self.ycor() < 380:

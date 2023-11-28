@@ -1,10 +1,11 @@
 # בס״ד
 
-from turtle import Turtle, Screen
-from paddle import Paddle
-from delimiter import Delimiter
-from scoreboard import Scoreboard
+from turtle import Screen
+
 from ball import Ball
+from delimiter import Delimiter
+from paddle import Paddle
+from scoreboard import Scoreboard
 
 # Create and customize the screen
 screen = Screen()
@@ -41,11 +42,15 @@ game_on = True
 while game_on:
     screen.update()
     ball.move()
-    if ball.distance(paddle1) < 2 or ball.distance(paddle2) < 2:
-        ball.setheading(-ball.heading())
 
+    # Collision with the upper and lower walls
+    if ball.ycor() > (screen.window_height() / 2 - 20) or ball.ycor() < (-screen.window_height() / 2 + 20):
+        ball.bounce_y()
 
-
+    # Collision with the paddles
+    if ((ball.distance(paddle2) < 70 and ball.xcor() > (screen.window_width() / 2 - 40)) or
+            (ball.distance(paddle1) < 70 and ball.xcor() < (-screen.window_width() / 2 + 40))):
+        ball.bounce_x()
 
 
 screen.exitonclick()
