@@ -1,5 +1,5 @@
 # בס״ד
-
+import time
 from turtle import Screen
 
 from ball import Ball
@@ -38,6 +38,7 @@ screen.onkeypress(paddle1.down, "z")
 screen.onkeypress(paddle2.up, "Up")
 screen.onkeypress(paddle2.down, "Down")
 
+
 game_on = True
 while game_on:
     screen.update()
@@ -51,6 +52,20 @@ while game_on:
     if ((ball.distance(paddle2) < 70 and ball.xcor() > (screen.window_width() / 2 - 40)) or
             (ball.distance(paddle1) < 70 and ball.xcor() < (-screen.window_width() / 2 + 40))):
         ball.bounce_x()
+
+    # Scoring
+    elif ball.xcor() < (-screen.window_width() / 2):
+        scoreboard.increase_score(user2)
+        time.sleep(1)
+        ball.new_ball()
+    elif ball.xcor() > (screen.window_width() / 2):
+        scoreboard.increase_score(user1)
+        time.sleep(1)
+        ball.new_ball()
+
+
+
+
 
 
 screen.exitonclick()
