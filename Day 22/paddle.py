@@ -2,28 +2,32 @@
 from turtle import Turtle
 
 
-class Paddle:
-    def __init__(self, side, screen_width):
-        self.paddle = []
+class Paddle(Turtle):
+    def __init__(self, side, screen_width, screen_height):
+        super().__init__()
+        self.penup()
+        self.shape('square')
+        self.color('white')
+        self.speed(100)
         self.side = side
         self.screen_width = screen_width
-        home_y = 0
-        for x in range(5):
-            segment = Turtle()
-            segment.penup()
-            segment.shape('square')
-            segment.color('white')
-            segment.sety(home_y + x * 20)
-            segment.speed(100)
-            self.paddle.append(segment)
+        self.screen_height = screen_height
+        self.shapesize(1, 6)
+        self.setheading(90)
         self.select_side()
 
     def select_side(self):
         if self.side == 'left':
-            for segment in self.paddle:
-                segment.setx(-(self.screen_width / 2)+10)
+            self.setx(-(self.screen_width / 2) + 10)
         elif self.side == 'right':
-            for segment in self.paddle:
-                segment.setx((self.screen_width / 2)-14)
+            self.setx((self.screen_width / 2) - 14)
         else:
             print("Please provide valid side!")
+
+    def up(self):
+        if self.ycor() < 380:
+            self.forward(40)
+
+    def down(self):
+        if self.ycor() > -380:
+            self.backward(40)

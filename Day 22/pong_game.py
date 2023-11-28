@@ -13,8 +13,17 @@ screen.screensize(600, 600)
 #
 
 # Create paddles
-paddle1 = Paddle('left', screen.window_width())
-paddle2 = Paddle('right', screen.window_width())
+paddle1 = Paddle('left', screen.window_width(), screen.window_height())
+paddle2 = Paddle('right', screen.window_width(), screen.window_height())
+
+# Make screen listen to events
+screen.listen()
+
+screen.onkeypress(paddle1.up, "a")
+screen.onkeypress(paddle1.down, "z")
+
+screen.onkeypress(paddle2.up, "Up")
+screen.onkeypress(paddle2.down, "Down")
 
 
 
