@@ -12,7 +12,10 @@ class Scoreboard(Turtle):
         self.scores = [0, 0]
         self.screen_width_half = screen_dimensions[0] / 4
         self.screen_height_half = screen_dimensions[1] / 2 - 35
-        self.positions = [(-self.screen_width_half, self.screen_height_half), (self.screen_width_half, self.screen_height_half)]
+        self.positions = [
+            (-self.screen_width_half, self.screen_height_half),
+            (self.screen_width_half, self.screen_height_half)
+        ]
         self.penup()
         self.hideturtle()
         self.keys = ["A / Z", "Up / Down"]

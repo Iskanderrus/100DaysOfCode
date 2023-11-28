@@ -22,7 +22,11 @@ paddle1 = Paddle('left', screen.window_width(), screen.window_height())
 paddle2 = Paddle('right', screen.window_width(), screen.window_height())
 
 # Create scoreboard
-scoreboard = Scoreboard(screen_dimensions=(screen.window_width(), screen.window_height()), user1=user1, user2=user2)
+scoreboard = Scoreboard(
+    screen_dimensions=(screen.window_width(), screen.window_height()),
+    user1=user1,
+    user2=user2
+)
 
 # Create ball
 ball = Ball()
@@ -42,15 +46,18 @@ while game_on:
     ball.move()
 
     # Collision with the upper and lower walls
-    if ball.ycor() > (screen.window_height() / 2 - 20) or ball.ycor() < (-screen.window_height() / 2 + 20):
+    if (ball.ycor() > (screen.window_height() / 2 - 20) or
+            ball.ycor() < (-screen.window_height() / 2 + 20)):
         ball.bounce_y()
 
     # Collision with the paddles
-    if ball.distance(paddle2) < 70 and ball.xcor() > (screen.window_width() / 2 - 40):
+    if (ball.distance(paddle2) < 70 and
+            ball.xcor() > (screen.window_width() / 2 - 40)):
         paddle2.color(ball.color()[0])
         ball.bounce_x()
 
-    elif ball.distance(paddle1) < 70 and ball.xcor() < (-screen.window_width() / 2 + 40):
+    elif (ball.distance(paddle1) < 70 and
+          ball.xcor() < (-screen.window_width() / 2 + 40)):
         paddle1.color(ball.color()[0])
         ball.bounce_x()
     # Scoring
@@ -64,11 +71,13 @@ while game_on:
         time.sleep(1)
         ball.new_ball()
 
+    # Color management
     if ball.color()[0] == paddle1.color()[0] == paddle2.color()[0]:
         scoreboard.color(ball.color()[0])
     else:
         scoreboard.color('white')
 
+    # Finishing the game
     if max(scoreboard.scores) == 15:
         for segm in screen_delimiter.delimiter:
             segm.hideturtle()

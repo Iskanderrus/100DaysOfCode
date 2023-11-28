@@ -2,6 +2,8 @@
 
 from turtle import Turtle
 
+MOVE_AMOUNT = 50
+
 
 class Paddle(Turtle):
     def __init__(self, side, screen_width, screen_height):
@@ -25,8 +27,8 @@ class Paddle(Turtle):
 
     def up(self):
         if self.ycor() < (self.screen_height / 2 - 60):
-            self.forward(40)
+            self.forward(MOVE_AMOUNT)
 
     def down(self):
         if self.ycor() > -(self.screen_height / 2 - 50):
-            self.backward(40)
+            self.backward(MOVE_AMOUNT)
