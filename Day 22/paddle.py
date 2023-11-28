@@ -24,9 +24,9 @@ class Paddle(Turtle):
             self.setx((self.screen_width / 2) - 14)
 
     def up(self):
-        if self.ycor() < 380:
+        if self.ycor() < (self.screen_height / 2 - 60):
             self.forward(40)
 
     def down(self):
-        if self.ycor() > -380:
+        if self.ycor() > -(self.screen_height / 2 - 50):
             self.backward(40)
