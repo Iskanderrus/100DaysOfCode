@@ -8,7 +8,7 @@ class Paddle(Turtle):
         self.penup()
         self.shape('square')
         self.color('white')
-        self.speed(100)
+        self.speed('fastest')
         self.side = side
         self.screen_width = screen_width
         self.screen_height = screen_height
@@ -21,8 +21,7 @@ class Paddle(Turtle):
             self.setx(-(self.screen_width / 2) + 10)
         elif self.side == 'right':
             self.setx((self.screen_width / 2) - 14)
-        else:
-            print("Please provide valid side!")
+
 
     def up(self):
         if self.ycor() < 380:
