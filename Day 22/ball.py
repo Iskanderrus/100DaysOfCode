@@ -21,7 +21,6 @@ class Ball(Turtle):
         self.sleep_time = 0.1
 
     def move(self):
-        time.sleep(self.sleep_time)
         self.setpos(self.xcor() + self.x_move, self.ycor() + self.y_move)
 
     def bounce_y(self):
@@ -29,9 +28,10 @@ class Ball(Turtle):
 
     def bounce_x(self):
         self.color(choice(COLORS))
-        self.sleep_time *= 0.99
+        self.sleep_time *= 0.95
         self.x_move *= -1
 
     def new_ball(self):
         self.goto(0, 0)
+        self.sleep_time = 0.1
         self.move()

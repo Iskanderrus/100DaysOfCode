@@ -44,6 +44,7 @@ game_on = True
 while game_on:
     screen.update()
     ball.move()
+    time.sleep(ball.sleep_time)
 
     # Collision with the upper and lower walls
     if (ball.ycor() > (screen.window_height() / 2 - 20) or
