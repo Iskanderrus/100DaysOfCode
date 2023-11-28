@@ -12,7 +12,7 @@ screen = Screen()
 screen.bgcolor('black')
 screen.screensize()
 screen.tracer(0)
-screen_delimiter = Delimiter(screen.window_height()/2)
+screen_delimiter = Delimiter(screen.window_height() / 2)
 user1 = screen.textinput("Welcome to Ping Pong!", "What is your name?").strip().title()
 user2 = screen.textinput("Welcome to Ping Pong!", "What is your name?").strip().title()
 screen.title(f"{user1} -*-*-*-*- Ping Pong -*-*-*-*- {user2}")
@@ -36,7 +36,6 @@ screen.onkeypress(paddle1.down, "z")
 screen.onkeypress(paddle2.up, "Up")
 screen.onkeypress(paddle2.down, "Down")
 
-
 game_on = True
 while game_on:
     screen.update()
@@ -47,10 +46,13 @@ while game_on:
         ball.bounce_y()
 
     # Collision with the paddles
-    if ((ball.distance(paddle2) < 70 and ball.xcor() > (screen.window_width() / 2 - 40)) or
-            (ball.distance(paddle1) < 70 and ball.xcor() < (-screen.window_width() / 2 + 40))):
+    if ball.distance(paddle2) < 70 and ball.xcor() > (screen.window_width() / 2 - 40):
+        paddle2.color(ball.color()[0])
         ball.bounce_x()
 
+    elif ball.distance(paddle1) < 70 and ball.xcor() < (-screen.window_width() / 2 + 40):
+        paddle1.color(ball.color()[0])
+        ball.bounce_x()
     # Scoring
     elif ball.xcor() < (-screen.window_width() / 2):
         scoreboard.increase_score(user2)
@@ -62,7 +64,12 @@ while game_on:
         time.sleep(1)
         ball.new_ball()
 
-    if max(scoreboard.scores) == 1:
+    if ball.color()[0] == paddle1.color()[0] == paddle2.color()[0]:
+        scoreboard.color(ball.color()[0])
+    else:
+        scoreboard.color('white')
+
+    if max(scoreboard.scores) == 15:
         for segm in screen_delimiter.delimiter:
             segm.hideturtle()
         ball.hideturtle()
@@ -71,9 +78,5 @@ while game_on:
         scoreboard.clear()
         screen.update()
         game_on = scoreboard.end_game()
-
-
-
-
 
 screen.exitonclick()
