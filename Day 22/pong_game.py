@@ -10,10 +10,12 @@ from ball import Ball
 screen = Screen()
 screen.bgcolor('black')
 screen.screensize(600, 600)
+screen.tracer(0)
 screen_delimiter = Delimiter(screen.window_height()/2)
 user1 = screen.textinput("Welcome to Ping Pong!", "What is your name?").strip().title()
 user2 = screen.textinput("Welcome to Ping Pong!", "What is your name?").strip().title()
 screen.title(f"{user1} -*-*-*-*- Ping Pong -*-*-*-*- {user2}")
+
 #
 
 # Create paddles
@@ -34,6 +36,14 @@ screen.onkeypress(paddle1.down, "z")
 
 screen.onkeypress(paddle2.up, "Up")
 screen.onkeypress(paddle2.down, "Down")
+
+game_on = True
+while game_on:
+    screen.update()
+    ball.move()
+    if ball.distance(paddle1) < 2 or ball.distance(paddle2) < 2:
+        ball.setheading(-ball.heading())
+
 
 
 
