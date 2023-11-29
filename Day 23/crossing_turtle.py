@@ -20,4 +20,4 @@ class CrossingTurtle(Turtle):
         self.goto(self.x_cor, self.y_cor)
 
     def up(self):
-        self.forward(10)
+        self.forward(40)
