@@ -21,3 +21,21 @@ class ScoreBoard(Turtle):
         self.clear()
         self.score += 1
         self.message()
+
+    def game_over(self, turtle_color, car_color):
+        self.clear()
+        self.color(car_color)
+        self.goto(0, 0)
+        self.write('GAME OVER', align='center', font=('Arial', 20, 'bold'))
+        self.goto(0, 50)
+        self.color(turtle_color)
+        sin_pl_turtles = ['turtle', 'turtles']
+        if self.score == 1:
+            turtles = sin_pl_turtles[0]
+        else:
+            turtles = sin_pl_turtles[1]
+        self.write(
+            f'{turtle_color.title()} turtle died under a {car_color} car after {self.score} {turtles} crossed the road',
+            align='center',
+            font=('Arial', 18, 'normal')
+        )
