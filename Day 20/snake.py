@@ -80,3 +80,11 @@ class Snake:
     def clear(self):
         for segment in self.snake_body:
             segment.clear()
+
+    def reset(self):
+        for seg in self.snake_body:
+            seg.goto(1800, 1800)
+
+        self.snake_body.clear()
+        self.make_body()
+        self.head = self.snake_body[0]
