@@ -38,7 +38,7 @@ scoreboard.pencolor('black')
 
 
 def save_data_to_learn(df, list_of_answers):
-    states_not_guessed = df[~df['state'].isin(list_of_answers)]
+    states_not_guessed = df[~df['state'].isin(list_of_answers)]['state']
     states_not_guessed.to_csv('states_to_learn.scv')
 
 
