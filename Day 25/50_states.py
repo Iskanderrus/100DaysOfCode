@@ -25,6 +25,7 @@ pointer.hideturtle()
 
 # setup screen
 screen = Screen()
+screen.setup(800, 800)
 screen.title('Guess all US states')
 screen.bgpic(bg_image)
 screen.tracer(0)
@@ -34,6 +35,12 @@ scoreboard = Turtle()
 scoreboard.penup()
 scoreboard.hideturtle()
 scoreboard.pencolor('black')
+
+
+def save_data_to_learn(df, list_of_answers):
+    states_not_guessed = df[~df['state'].isin(list_of_answers)]
+    states_not_guessed.to_csv('states_to_learn.scv')
+
 
 # service data
 tries = 50  # 50 tries to perfectly guess all 50 states
@@ -55,13 +62,14 @@ while tries > 0:
         user_input = user_input.strip().title()
     # condition to exit the game
     except AttributeError:
+        save_data_to_learn(df=data, list_of_answers=right_answers)
         sys.exit()
 
     # condition if the state was already mentioned
     if user_input in right_answers:
         scoreboard.clear()
         scoreboard.goto(0, -285)
-        scoreboard.write("You already guessed this one. One try is gone.",
+        scoreboard.write("You already guessed this one",
                          align='center',
                          font=('Arial', 20, 'bold'))
         screen.update()
@@ -81,7 +89,7 @@ while tries > 0:
             right_answers.remove(user_input)
             scoreboard.clear()
             scoreboard.goto(0, -285)
-            scoreboard.write('There is no state with this name in the US. Try again.',
+            scoreboard.write(f'There is no state {user_input} in the US',
                              align='center',
                              font=('Arial', 20, 'bold'))
             screen.update()
@@ -91,5 +99,8 @@ while tries > 0:
     tries -= 1
     scoreboard.clear()
     screen.update()
+
+if len(right_answers) < 50:
+    save_data_to_learn(df=data, list_of_answers=right_answers)
 
 screen.exitonclick()
