@@ -7,15 +7,15 @@ from zipfile import ZipFile
 import pandas as pd
 
 # Read zip file with data
-zip_file = ZipFile("../../../Desktop/100 Days of Code The Complete Python Pro Bootcamp for 2023/25 - Day 25 - "
-                   "Intermediate - Working with CSV Data and the Pandas Library/005 us-states-game-start.zip")
+#zip_file = ZipFile("../../../Desktop/100 Days of Code The Complete Python Pro Bootcamp for 2023/25 - Day 25 - "
+#                   "Intermediate - Working with CSV Data and the Pandas Library/005 us-states-game-start.zip")
 
 # print zip file contents
 # zip_file.printdir()
 
 # read data from the zip file into dataframe and image path
-data = pd.read_csv(zip_file.extract("us-states-game-start/50_states.csv"))
-bg_image = zip_file.extract("us-states-game-start/blank_states_img.gif")
+data = pd.read_csv("us-states-game-start/50_states.csv")
+bg_image = "us-states-game-start/blank_states_img.gif"
 # print(data.head(2))
 
 # setup pointer for writing states and screen
