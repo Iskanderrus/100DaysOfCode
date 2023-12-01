@@ -4,7 +4,7 @@ data = pd.read_csv("../../../Desktop/100 Days of Code The Complete Python Pro Bo
 df = pd.DataFrame(data)
 
 print(df.head())
-colors_df = df["Highlight Fur Color"].value_counts()
+colors_df = df["Primary Fur Color"].value_counts()
 print(colors_df)
 
 colors_df.to_csv('colors_data.csv')
