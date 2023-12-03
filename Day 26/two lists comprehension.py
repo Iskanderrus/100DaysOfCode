@@ -7,9 +7,7 @@ def grab_the_numbers(a_txt_file) -> list:
     :return: list of integers
     """
     with open(a_txt_file) as f:
-        new_list = f.readlines()
-        new_list = [int(x.strip()) for x in new_list]
-        return new_list
+        return [int(x.strip()) for x in f.readlines()]
 
 
 # getting two lists
@@ -19,3 +17,6 @@ list2 = grab_the_numbers(a_txt_file='file2.txt')
 # searching for overlapping
 overlapping = [x for x in list1 if x in list2]
 print(overlapping)
+
+# option 2
+print([x for x in grab_the_numbers(a_txt_file='file1.txt') if x in grab_the_numbers(a_txt_file='file2.txt')])
