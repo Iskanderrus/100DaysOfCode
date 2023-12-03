@@ -7,7 +7,7 @@ from zipfile import ZipFile
 import pandas as pd
 
 # Read zip file with data
-#zip_file = ZipFile("../../../Desktop/100 Days of Code The Complete Python Pro Bootcamp for 2023/25 - Day 25 - "
+# zip_file = ZipFile("../../../Desktop/100 Days of Code The Complete Python Pro Bootcamp for 2023/25 - Day 25 - "
 #                   "Intermediate - Working with CSV Data and the Pandas Library/005 us-states-game-start.zip")
 
 # print zip file contents
