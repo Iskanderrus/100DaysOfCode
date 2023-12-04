@@ -6,6 +6,7 @@ import tkinter
 window = tkinter.Tk()
 # window title
 window.title('My first GUI program')
+window.config(padx=20, pady=20)
 
 # window size
 window.minsize(width=800, height=800)
