@@ -71,22 +71,21 @@ def count_down(count):
 
 # create and set up the window
 window = Tk()
+# makes the window appear over all other windows
+window.wm_attributes("-topmost", 1)
+window.config(padx=50, pady=25, bg=YELLOW)
 window.title('Pomodoro')
 
 # adding the icon to the program
 ico = Image.open('tomato.png')
 photo = ImageTk.PhotoImage(ico)
 window.wm_iconphoto(False, photo)
-window.config(padx=100, pady=50)
-window.config(bg=YELLOW)
 
 # create and setup canvas
-canvas = Canvas(width=206, height=224, highlightthickness=0)
+canvas = Canvas(bg=YELLOW, width=206, height=224, highlightthickness=0)
 filename = PhotoImage(file="tomato.png")
 canvas.create_image(103, 112, image=filename)
-
 timer_text = canvas.create_text(103, 135, text='00:00', fill='white', font=(FONT_NAME, 35, 'bold'))
-canvas.config(bg=YELLOW)
 canvas.grid(row=1, column=1)
 
 # Labels
