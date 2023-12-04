@@ -1,6 +1,7 @@
 # בס״ד
 
-from tkinter import Tk, Entry, Label, Button, PhotoImage
+from tkinter import Tk, Entry, Label, Button
+
 from PIL import Image, ImageTk
 
 PADX = 5
@@ -16,13 +17,13 @@ def miles_to_km():
         return result_label.config(text='Not valid input')
     else:
         miles_value = round(km * 1.60934, 3)
-        return result_label.config(text=miles_value)
+        return result_label.config(text=f'{miles_value}')
 
 
 converter = Tk()
 converter.minsize(height=100, width=200)
 converter.title('Mile to Kilometer Converter')
-converter.config(padx=50, pady=50, bg='white')
+converter.config(padx=20, pady=20, bg='white')
 
 ico = Image.open('icon.png')
 photo = ImageTk.PhotoImage(ico)
