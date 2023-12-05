@@ -17,14 +17,14 @@ Resulting in a strong 19-character password.
 - Specify the desired number of characters for lowercase, uppercase, digits, and symbols.
 - Use only digits for customization.
 
-<h2>Important Notes</h2>
+<h3>Important Notes</h3>
 <br>
 - After clicking the "Add" button, your data is saved to a local file, and the password is copied to your clipboard for immediate use on the desired website.
 - If you generate a password but don't click "Add" and use the EXIT button in the top-right corner, your password will be saved and copied to the clipboard for security reasons.
 - If you're dissatisfied with the generated password, feel free to press "Generate Password" until you find a suitable one, then save it as described above.
 - No password will be generated if there is no website, email, or username provided.
 
-<h2>Usage Instructions</h2>
+<h3>Usage Instructions</h3>
 <br>
 1. Launch the application.
 2. Customize password complexity using the "Requirements" button or use the default settings.
