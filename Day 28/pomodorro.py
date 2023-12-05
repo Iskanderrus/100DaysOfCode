@@ -5,12 +5,20 @@ from tkinter import Tk, Label, Button, PhotoImage, Canvas
 from PIL import Image, ImageTk
 from playsound import playsound
 
+import threading
+
+
+def play_sound(filename):
+    t = threading.Thread(target=playsound, args=(filename,))
+    t.start()
+
+
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
 RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
-FONT_NAME = "Courier"
+FONT_NAME = "courier"
 WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
@@ -40,15 +48,15 @@ def start_timer():
     if cycle == 8:
         count_down(LONG_BREAK_MIN * 60)
         title_label.config(text='LONG BREAK', fg=RED)
-        playsound('sounds/lie_down_for_a_while_and_have_a_rest..mp3')
+        play_sound('sounds/lie_down_for_a_while_and_have_a_rest..mp3')
     # every second cycle - a short pause
     elif cycle % 2 == 0:
-        playsound('sounds/lets_have_a_break.mp3')
+        play_sound('sounds/lets_have_a_break.mp3')
         count_down(SHORT_BREAK_MIN * 60)
         title_label.config(text='SHORT BREAK', fg=PINK)
     # every odd cycle - working time
     else:
-        playsound('sounds/get_back_to_work.mp3')
+        play_sound('sounds/get_back_to_work.mp3')
         count_down(WORK_MIN * 60)
         title_label.config(text='WORK', fg=GREEN)
 
