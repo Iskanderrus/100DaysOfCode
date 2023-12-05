@@ -106,6 +106,7 @@ def adding_password():
         with open(path, mode='a') as file:
             file.write(message)
         pyperclip.copy(password_entry.get())
+        messagebox.showinfo("Success", "Saved and copied to clipboard")
         password_entry.delete(0, 'end')
         website_entry.delete(4, 'end')
 
