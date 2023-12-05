@@ -107,6 +107,7 @@ def adding_password():
             file.write(message)
         pyperclip.copy(password_entry.get())
         password_entry.delete(0, 'end')
+        website_entry.delete(4, 'end')
 
 
 # create main window
