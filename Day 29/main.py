@@ -240,7 +240,7 @@ website_entry.insert(0, 'www.')
 website_entry.grid(row=2, column=1, columnspan=2, ipady=3, pady=5)
 
 email_entry = Entry(window, width=52)
-email_entry.insert(0, 'a.n.chasovskoy@gmail.com')
+email_entry.insert(0, '@')
 email_entry.grid(row=3, column=1, columnspan=2, ipady=3, pady=5)
 
 password_entry = Entry(window, width=35)
