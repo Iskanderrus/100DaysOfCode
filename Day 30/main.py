@@ -30,13 +30,18 @@ def search_button_func():
 
     else:
         website = website_entry.get()
-        username = data[website]['username']
-        password = data[website]['password']
-        pyperclip.copy(password)
-        messagebox.showinfo("Entry exists",
-                            f"Saved username: {username}\n"
-                            f"Saved password: {password}\n\n"
-                            f"This password is copied to clipboard.")
+        try:
+            username = data[website]['username']
+            password = data[website]['password']
+        except KeyError:
+            messagebox.showinfo("Entry does not exists",
+                                f"This website is not found in your database")
+        else:
+            pyperclip.copy(password)
+            messagebox.showinfo("Entry exists",
+                                f"Saved username: {username}\n"
+                                f"Saved password: {password}\n\n"
+                                f"This password is copied to clipboard.")
 
 
 def exit_button():
