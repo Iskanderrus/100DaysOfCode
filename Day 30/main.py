@@ -11,14 +11,32 @@ import pyperclip
 from PIL import Image, ImageTk
 
 FONT_NAME = 'TkMenuFont'
-DATA_FILE = Path('data.json')
-    #Path('../../../Documents/password_manager_log.json'))
+DATA_FILE = Path('../../../Documents/password_manager_log.json')
 
 # default values for the password
 lower_case_number = 6
 upper_case_number = 4
 digits_number = 5
 symbols_number = 4
+
+
+def search_button_func():
+    try:
+        with open(DATA_FILE, 'r') as data_file:
+            data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showinfo("File does not exists",
+                            f"Please make your first entry and save it.")
+
+    else:
+        website = website_entry.get()
+        username = data[website]['username']
+        password = data[website]['password']
+        pyperclip.copy(password)
+        messagebox.showinfo("Entry exists",
+                            f"Saved username: {username}\n"
+                            f"Saved password: {password}\n\n"
+                            f"This password is copied to clipboard.")
 
 
 def exit_button():
@@ -192,6 +210,21 @@ generate_button = Button(
 )
 generate_button.grid(row=4, column=2)
 
+search_button = Button(
+    window,
+    font=FONT_NAME,
+    height=1,
+    width=15,
+    bg='#0089B4',
+    fg='#F9E3E2',
+    activebackground='#169700',
+    activeforeground='#F9E3E2',
+    highlightthickness=0,
+    text='Search',
+    command=search_button_func
+)
+search_button.grid(row=2, column=2)
+
 special_requirements_button = Button(
     window,
     font=FONT_NAME,
@@ -254,10 +287,10 @@ password_label = Label(
 password_label.grid(row=4, column=0)
 
 # text fields
-website_entry = Entry(window, width=52)
+website_entry = Entry(window, width=35)
 website_entry.focus()
 website_entry.insert(0, 'www.')
-website_entry.grid(row=2, column=1, columnspan=2, ipady=3, pady=5)
+website_entry.grid(row=2, column=1, ipady=3, pady=5)
 
 email_entry = Entry(window, width=52)
 email_entry.insert(0, '@')
