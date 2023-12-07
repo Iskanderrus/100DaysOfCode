@@ -1,22 +1,19 @@
 # בס״ד
-"""
-Preparing data
-"""
+from tkinter import Tk, Widget, Button, Entry, Label, Canvas, PhotoImage
 
-from google.cloud import translate_v2 as translate
-import pandas as pd
+# main window
+root = Tk()
+root.title('Карточки сербского языка')
 
-translate_client = translate.Client()
+# canvas
+canvas = Canvas(root, height=600, width=600, highlightthickness=0)
+filename = PhotoImage('images/card_front.png')
+canvas.create_image(300, 300, image=filename)
+canvas.grid(row=0, column=0)
 
-with open('data/sr_50k.txt', 'r') as file:
-    data = file.readlines()
+# buttons
 
-serbian = []
-russian = []
-for word in data:
-    cleaned_word = word.split(' ')[0]
-    serbian.append(cleaned_word)
-    russian.append(translate_client.translate(word, target_language='ru', source_language='sr').lower())
 
-df = pd.DataFrame([serbian, russian], columns=['Serbian', 'Russian'])
-df.to_csv('./data/cleaned_words.csv')
+
+
+root.mainloop()
