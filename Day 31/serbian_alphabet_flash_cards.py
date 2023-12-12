@@ -1,8 +1,9 @@
 # בס״ד
+import os
 import sys
 from pathlib import Path
 from random import choice
-from tkinter import Tk, Button, Canvas, PhotoImage, Frame, W, E
+from tkinter import Tk, Button, Canvas, PhotoImage, messagebox
 
 import pandas as pd
 from PIL import Image, ImageTk
@@ -29,6 +30,20 @@ except FileNotFoundError:
 
 to_learn = data.to_dict(orient='records')
 current_card = {}
+
+
+def reset_progress():
+    path = Path('data/words_to_learn.csv')
+    if path.exists():
+        os.remove(path)
+        if TRANSLATION_LANGUAGE == 'ru':
+            messagebox.showinfo('Прогресс сброшен', 'Вы можете начать обучение сначала')
+        elif TRANSLATION_LANGUAGE == 'en':
+            messagebox.showinfo('Your progress was reset', 'You can start learning from scratch')
+        elif TRANSLATION_LANGUAGE == 'de':
+            messagebox.showinfo('Fortschritt zurückgesetzt', 'Sie können wieder mit dem Lernen beginnen')
+        elif TRANSLATION_LANGUAGE == 'tr':
+            messagebox.showinfo('İlerleme sıfırlama', 'Tekrar öğrenmeye başlayabilirsiniz')
 
 
 def exit_button_pressed():
@@ -69,7 +84,8 @@ def flip_card():
                       fill='white',
                       font=('Ariel', 15, 'normal'))
     canvas.itemconfig(sample_word,
-                      text=f"{current_card[f'sample_{ALPHABET_STYLE}']} - {current_card[f'sample_{TRANSLATION_LANGUAGE}']}",
+                      text=f"{current_card[f'sample_{ALPHABET_STYLE}']} - "
+                           f"{current_card[f'sample_{TRANSLATION_LANGUAGE}']}",
                       fill='white')
 
     sr_flag_image = Image.open(f'images/flags/{TRANSLATION_LANGUAGE}.png')
@@ -111,7 +127,7 @@ sample_image = Image.open('images/alphabet/car.png')
 sample_image = ImageTk.PhotoImage(sample_image)
 word_image = canvas.create_image(570, 200, image=sample_image)
 
-canvas.grid(row=0, column=0, columnspan=2, rowspan=5)
+canvas.grid(row=1, column=0, columnspan=2, rowspan=4)
 
 # service buttons
 settings_photo = PhotoImage(file='images/settings.png')
@@ -123,7 +139,7 @@ settings_button = Button(root,
                          command=exit_button_pressed
                          )
 settings_button.config(borderwidth=0)
-settings_button.grid(row=4, column=3, sticky=W)
+settings_button.grid(row=2, column=3)
 
 reset_photo = PhotoImage(file='images/reset.png')
 reset_button = Button(root,
@@ -131,10 +147,10 @@ reset_button = Button(root,
                       bg=BACKGROUND_COLOR,
                       activebackground=BACKGROUND_COLOR,
                       highlightthickness=0,
-                      command=exit_button_pressed
+                      command=reset_progress
                       )
 reset_button.config(borderwidth=0)
-reset_button.grid(row=5, column=3, sticky=W)
+reset_button.grid(row=1, column=3)
 
 exit_photo = PhotoImage(file='images/exit.png')
 exit_button = Button(root,
@@ -145,7 +161,7 @@ exit_button = Button(root,
                      command=exit_button_pressed
                      )
 exit_button.config(borderwidth=0)
-exit_button.grid(row=0, column=3, sticky=E)
+exit_button.grid(row=0, column=3)
 
 # main buttons
 right_photo = PhotoImage(file='images/right.png')
