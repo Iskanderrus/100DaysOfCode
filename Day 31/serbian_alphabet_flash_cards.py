@@ -15,7 +15,8 @@ current_card = {}
 
 
 def next_card():
-    global current_card, sample_image, sr_flag_image
+    global current_card, sample_image, sr_flag_image, flip_timer
+    root.after_cancel(flip_timer)
     current_card = choice(to_learn)
     canvas.itemconfig(title, text=ALPHABET_STYLE, fill='black')
     canvas.itemconfig(letter, text=current_card[ALPHABET_STYLE], fill='black', font=('Ariel', 30, 'bold'))
@@ -39,7 +40,9 @@ def flip_card():
                       text=f"{current_card[f'{TRANSLATION_LANGUAGE}_transcription']} - {current_card['IPA_value']}",
                       fill='white',
                       font=('Ariel', 15, 'normal'))
-    canvas.itemconfig(sample_word, text=current_card[f'sample_{TRANSLATION_LANGUAGE}'], fill='white')
+    canvas.itemconfig(sample_word,
+                      text=f"{current_card[f'sample_{ALPHABET_STYLE}']} - {current_card[f'sample_{TRANSLATION_LANGUAGE}']}",
+                      fill='white')
 
     sr_flag_image = Image.open(f'images/flags/{TRANSLATION_LANGUAGE}.png')
     sr_flag_image = ImageTk.PhotoImage(sr_flag_image)
@@ -53,7 +56,7 @@ root = Tk()
 root.title('Алфавит сербского языка')
 root.config(padx=50, pady=50, bg=BACKGROUND_COLOR)
 
-root.after(3000, func=flip_card)
+flip_timer = root.after(3000, func=flip_card)
 
 # settings
 # TODO: Add a window asking the user to select what type of alphabet he wants to train and preferred user language
@@ -68,9 +71,9 @@ card_back_img = Image.open('images/card_back.png')
 card_back_img = ImageTk.PhotoImage(card_back_img)
 
 card_background = canvas.create_image(400, 263, image=card_front_img)
-title = canvas.create_text(180, 50, text='', font=('Ariel', 20, 'normal'))
-letter = canvas.create_text(200, 200, text='A a', font=('Ariel', 20, 'bold'))
-sample_word = canvas.create_text(200, 250, text='', font=('Ariel', 20, 'italic'))
+title = canvas.create_text(200, 50, text='', font=('Ariel', 20, 'normal'))
+letter = canvas.create_text(220, 200, text='A a', font=('Ariel', 20, 'bold'))
+sample_word = canvas.create_text(220, 250, text='', font=('Ariel', 20, 'italic'))
 
 sr_flag_image = Image.open('images/flags/sr.png')
 sr_flag_image = ImageTk.PhotoImage(sr_flag_image)
@@ -78,7 +81,7 @@ flag_image_sr = canvas.create_image(50, 50, image=sr_flag_image)
 
 sample_image = Image.open('images/alphabet/car.png')
 sample_image = ImageTk.PhotoImage(sample_image)
-word_image = canvas.create_image(550, 200, image=sample_image)
+word_image = canvas.create_image(570, 200, image=sample_image)
 
 canvas.grid(row=0, column=0, columnspan=2)
 
