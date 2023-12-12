@@ -3,13 +3,14 @@ import os
 import sys
 from pathlib import Path
 from random import choice
-from tkinter import Tk, Button, Canvas, PhotoImage, messagebox
+from tkinter import Tk, Button, Canvas, PhotoImage, messagebox, Label, LabelFrame, Radiobutton, StringVar, LEFT, BOTTOM
 
 import pandas as pd
 from PIL import Image, ImageTk
 
 BACKGROUND_COLOR = "#B1DDC6"
 SETTINGS_PATH = Path('settings/settings.csv')
+settings_df = pd.DataFrame([], columns=['TRANSLATION_LANGUAGE', 'ALPHABET_STYLE'])
 
 # importing settings
 try:
@@ -30,6 +31,71 @@ except FileNotFoundError:
 
 to_learn = data.to_dict(orient='records')
 current_card = {}
+
+
+def settings_button_pressed(change_language=None, change_style=None):
+    global settings_df
+    settings_window = Tk()
+    selected_language = StringVar()
+    selected_style = StringVar()
+    settings_window.title('Settings')
+    settings_window.geometry('432x300')
+    settings_window.config(pady=10, padx=10)
+    settings_window.rowconfigure((0, 1), weight=1, pad=5)
+
+    languages_label = LabelFrame(
+        settings_window,
+        text='Select your language: ',
+        font=('Arial', 10, 'bold')
+    )
+    languages_label.grid(row=0, column=0, ipadx=1, ipady=5, sticky='NW')
+    # TODO: read about choice with Datiobutton in tkinter
+    languages = {'Deutsch': 'de', 'English': 'en', 'Türkçe': 'tr', 'Русский': 'ru'}
+    for language, code in languages.items():
+        rb = Radiobutton(
+            languages_label,
+            text=language,
+            value=code,
+            variable=selected_language,
+            command=change_language)
+        rb.pack(expand=True, fill='y', side=LEFT)
+
+    def change_language():
+        settings_df['TRANSLATION_LANGUAGE'] = code
+
+    alphabets_label = LabelFrame(
+        settings_window,
+        text='Alphabet style: ',
+        font=('Arial', 10, 'bold')
+    )
+    alphabets_label.grid(row=1, column=0, ipadx=5, ipady=5, sticky='NW')
+    alphabet_styles = ['ћирилица', 'latinica']
+    for style in alphabet_styles:
+        rb = Radiobutton(
+            alphabets_label,
+            text=style,
+            value=style,
+            variable=selected_style,
+            command=change_style)
+        rb.pack(expand=True, fill='y', side=LEFT)
+
+    def change_style():
+        settings_df['ALPHABET_STYLE'] = selected_style
+
+    def save_settings():
+        settings_path = Path('settings/settings.csv')
+        if not settings_path.exists():
+            dir_path = Path('./settings')
+            Path.mkdir(dir_path)
+        settings_df.to_csv('settings/settings.csv', index=False)
+
+        settings_window.destroy()
+
+    save_button = Button(settings_window, text='Save settings', command=save_settings)
+    save_button.grid(row=2, column=0, sticky='NE')
+
+
+    settings_window.mainloop()
 
 
 def reset_progress():
@@ -102,9 +168,6 @@ root.config(padx=50, pady=50, bg=BACKGROUND_COLOR)
 
 flip_timer = root.after(3000, func=flip_card)
 
-# settings
-# TODO: Add a window asking the user to select what type of alphabet he wants to train and preferred user language
-
 # canvas
 canvas = Canvas(width=800, height=526, bg=BACKGROUND_COLOR, highlightthickness=0)
 
@@ -127,7 +190,7 @@ sample_image = Image.open('images/alphabet/car.png')
 sample_image = ImageTk.PhotoImage(sample_image)
 word_image = canvas.create_image(570, 200, image=sample_image)
 
-canvas.grid(row=1, column=0, columnspan=2, rowspan=4)
+canvas.grid(row=1, column=0, columnspan=2, rowspan=7)
 
 # service buttons
 settings_photo = PhotoImage(file='images/settings.png')
@@ -136,10 +199,10 @@ settings_button = Button(root,
                          bg=BACKGROUND_COLOR,
                          activebackground=BACKGROUND_COLOR,
                          highlightthickness=0,
-                         command=exit_button_pressed
+                         command=settings_button_pressed
                          )
 settings_button.config(borderwidth=0)
-settings_button.grid(row=2, column=3)
+settings_button.grid(row=5, column=3)
 
 reset_photo = PhotoImage(file='images/reset.png')
 reset_button = Button(root,
@@ -150,7 +213,7 @@ reset_button = Button(root,
                       command=reset_progress
                       )
 reset_button.config(borderwidth=0)
-reset_button.grid(row=1, column=3)
+reset_button.grid(row=6, column=3)
 
 exit_photo = PhotoImage(file='images/exit.png')
 exit_button = Button(root,
@@ -173,7 +236,7 @@ right_button = Button(root,
                       command=is_known
                       )
 right_button.config(borderwidth=0)
-right_button.grid(row=5, column=0)
+right_button.grid(row=8, column=0)
 
 wrong_photo = PhotoImage(file='images/wrong.png')
 wrong_button = Button(root,
@@ -183,7 +246,7 @@ wrong_button = Button(root,
                       activebackground=BACKGROUND_COLOR,
                       command=next_card)
 wrong_button.config(borderwidth=0)
-wrong_button.grid(row=5, column=1)
+wrong_button.grid(row=8, column=1)
 
 next_card()
 
