@@ -1,7 +1,8 @@
 # בס״ד
+import sys
 from pathlib import Path
 from random import choice
-from tkinter import Tk, Button, Canvas, PhotoImage
+from tkinter import Tk, Button, Canvas, PhotoImage, Frame, W, E
 
 import pandas as pd
 from PIL import Image, ImageTk
@@ -28,6 +29,10 @@ except FileNotFoundError:
 
 to_learn = data.to_dict(orient='records')
 current_card = {}
+
+
+def exit_button_pressed():
+    sys.exit()
 
 
 def is_known():
@@ -85,7 +90,7 @@ flip_timer = root.after(3000, func=flip_card)
 # TODO: Add a window asking the user to select what type of alphabet he wants to train and preferred user language
 
 # canvas
-canvas = Canvas(height=526, width=800, bg=BACKGROUND_COLOR, highlightthickness=0)
+canvas = Canvas(width=800, height=526, bg=BACKGROUND_COLOR, highlightthickness=0)
 
 card_front_img = Image.open('images/card_front.png')
 card_front_img = ImageTk.PhotoImage(card_front_img)
@@ -106,9 +111,43 @@ sample_image = Image.open('images/alphabet/car.png')
 sample_image = ImageTk.PhotoImage(sample_image)
 word_image = canvas.create_image(570, 200, image=sample_image)
 
-canvas.grid(row=0, column=0, columnspan=2)
+canvas.grid(row=0, column=0, columnspan=2, rowspan=5)
 
-# buttons
+# service buttons
+settings_photo = PhotoImage(file='images/settings.png')
+settings_button = Button(root,
+                         image=settings_photo,
+                         bg=BACKGROUND_COLOR,
+                         activebackground=BACKGROUND_COLOR,
+                         highlightthickness=0,
+                         command=exit_button_pressed
+                         )
+settings_button.config(borderwidth=0)
+settings_button.grid(row=4, column=3, sticky=W)
+
+reset_photo = PhotoImage(file='images/reset.png')
+reset_button = Button(root,
+                      image=reset_photo,
+                      bg=BACKGROUND_COLOR,
+                      activebackground=BACKGROUND_COLOR,
+                      highlightthickness=0,
+                      command=exit_button_pressed
+                      )
+reset_button.config(borderwidth=0)
+reset_button.grid(row=5, column=3, sticky=W)
+
+exit_photo = PhotoImage(file='images/exit.png')
+exit_button = Button(root,
+                     image=exit_photo,
+                     bg=BACKGROUND_COLOR,
+                     activebackground=BACKGROUND_COLOR,
+                     highlightthickness=0,
+                     command=exit_button_pressed
+                     )
+exit_button.config(borderwidth=0)
+exit_button.grid(row=0, column=3, sticky=E)
+
+# main buttons
 right_photo = PhotoImage(file='images/right.png')
 right_button = Button(root,
                       image=right_photo,
@@ -118,7 +157,7 @@ right_button = Button(root,
                       command=is_known
                       )
 right_button.config(borderwidth=0)
-right_button.grid(row=1, column=0)
+right_button.grid(row=5, column=0)
 
 wrong_photo = PhotoImage(file='images/wrong.png')
 wrong_button = Button(root,
@@ -128,7 +167,7 @@ wrong_button = Button(root,
                       activebackground=BACKGROUND_COLOR,
                       command=next_card)
 wrong_button.config(borderwidth=0)
-wrong_button.grid(row=1, column=1)
+wrong_button.grid(row=5, column=1)
 
 next_card()
 
