@@ -1,4 +1,5 @@
 # בס״ד
+from pathlib import Path
 from random import choice
 from tkinter import Tk, Button, Canvas, PhotoImage
 
@@ -6,12 +7,34 @@ import pandas as pd
 from PIL import Image, ImageTk
 
 BACKGROUND_COLOR = "#B1DDC6"
-ALPHABET_STYLE = 'ћирилица'
-TRANSLATION_LANGUAGE = 'ru'
+SETTINGS_PATH = Path('settings/settings.csv')
 
-data = pd.read_csv('data/alphabet.csv')
+# importing settings
+try:
+    settings = pd.read_csv(SETTINGS_PATH)
+except FileNotFoundError:
+    ALPHABET_STYLE = 'ћирилица'
+    TRANSLATION_LANGUAGE = 'ru'
+
+else:
+    ALPHABET_STYLE = settings.ALPHABET_STYLE
+    TRANSLATION_LANGUAGE = settings.TRANSLATION_LANGUAGE
+
+# opening file with data
+try:
+    data = pd.read_csv('data/words_to_learn.csv')
+except FileNotFoundError:
+    data = pd.read_csv('data/alphabet.csv')
+
 to_learn = data.to_dict(orient='records')
 current_card = {}
+
+
+def is_known():
+    to_learn.remove(current_card)
+    to_learn_data = pd.DataFrame(to_learn)
+    to_learn_data.to_csv('data/words_to_learn.csv', index=False)
+    next_card()
 
 
 def next_card():
@@ -87,14 +110,23 @@ canvas.grid(row=0, column=0, columnspan=2)
 
 # buttons
 right_photo = PhotoImage(file='images/right.png')
-right_button = Button(root, image=right_photo, bg=BACKGROUND_COLOR, activebackground=BACKGROUND_COLOR,
-                      highlightthickness=0)
+right_button = Button(root,
+                      image=right_photo,
+                      bg=BACKGROUND_COLOR,
+                      activebackground=BACKGROUND_COLOR,
+                      highlightthickness=0,
+                      command=is_known
+                      )
 right_button.config(borderwidth=0)
 right_button.grid(row=1, column=0)
 
 wrong_photo = PhotoImage(file='images/wrong.png')
-wrong_button = Button(root, image=wrong_photo, bg=BACKGROUND_COLOR, highlightthickness=0,
-                      activebackground=BACKGROUND_COLOR, command=next_card)
+wrong_button = Button(root,
+                      image=wrong_photo,
+                      bg=BACKGROUND_COLOR,
+                      highlightthickness=0,
+                      activebackground=BACKGROUND_COLOR,
+                      command=next_card)
 wrong_button.config(borderwidth=0)
 wrong_button.grid(row=1, column=1)
 
