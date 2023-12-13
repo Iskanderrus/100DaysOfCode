@@ -1,6 +1,7 @@
 # בס״ד
 import os
 import sys
+import time
 from pathlib import Path
 from random import choice
 from tkinter import Tk, Button, Canvas, PhotoImage, messagebox, Label, LabelFrame, Radiobutton, StringVar, LEFT, BOTTOM
@@ -184,6 +185,9 @@ def flip_card():
     sr_flag_image = ImageTk.PhotoImage(sr_flag_image)
     canvas.itemconfig(flag_image_sr, image=sr_flag_image)
     canvas.itemconfig(card_background, image=card_back_img)
+
+
+def play_sound_mp3():
     playsound(current_card['sound_url'])
 
 
@@ -219,6 +223,20 @@ word_image = canvas.create_image(570, 200, image=sample_image)
 canvas.grid(row=1, column=0, columnspan=2, rowspan=7)
 
 # service buttons
+
+sound_image = Image.open('images/sound_button.png')
+sound_image = ImageTk.PhotoImage(sound_image)
+
+sound_button = Button(root,
+                      image=sound_image,
+                      bg=BACKGROUND_COLOR,
+                      activebackground=BACKGROUND_COLOR,
+                      highlightthickness=0,
+                      command=play_sound_mp3
+                      )
+sound_button.config(borderwidth=0)
+sound_button.grid(row=3, column=3)
+
 settings_photo = PhotoImage(file='images/settings.png')
 settings_button = Button(root,
                          image=settings_photo,
@@ -228,7 +246,7 @@ settings_button = Button(root,
                          command=settings_button_pressed
                          )
 settings_button.config(borderwidth=0)
-settings_button.grid(row=5, column=3)
+settings_button.grid(row=4, column=3)
 
 reset_photo = PhotoImage(file='images/reset.png')
 reset_button = Button(root,
@@ -239,7 +257,7 @@ reset_button = Button(root,
                       command=reset_progress
                       )
 reset_button.config(borderwidth=0)
-reset_button.grid(row=6, column=3)
+reset_button.grid(row=5, column=3)
 
 exit_photo = PhotoImage(file='images/exit.png')
 exit_button = Button(root,
