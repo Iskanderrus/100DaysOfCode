@@ -6,5 +6,9 @@ with open('../../../Documents/password.txt') as f:
 
 connection = smtplib.SMTP_SSL('smtp.mail.ru')
 connection.login(user=my_email, password=my_password)
-connection.sendmail(from_addr=my_email, to_addrs='a.n.chasovskoy@gmail.com', msg='Hi there!')
+connection.sendmail(
+    from_addr=my_email,
+    to_addrs='a.n.chasovskoy@gmail.com',
+    msg='Subject:Hi there!\n\nThis is the body of my email'
+)
 connection.close()
