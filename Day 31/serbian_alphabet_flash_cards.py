@@ -10,18 +10,16 @@ from PIL import Image, ImageTk
 
 BACKGROUND_COLOR = "#B1DDC6"
 SETTINGS_PATH = Path('settings/settings.csv')
-settings_df = pd.DataFrame([], columns=['TRANSLATION_LANGUAGE', 'ALPHABET_STYLE'])
+settings_df = pd.DataFrame()
 
 # importing settings
 try:
     settings = pd.read_csv(SETTINGS_PATH)
-except FileNotFoundError:
+    ALPHABET_STYLE = settings.ALPHABET_STYLE[0]
+    TRANSLATION_LANGUAGE = settings.TRANSLATION_LANGUAGE[0]
+except (FileNotFoundError, AttributeError):
     ALPHABET_STYLE = 'ћирилица'
     TRANSLATION_LANGUAGE = 'ru'
-
-else:
-    ALPHABET_STYLE = settings.ALPHABET_STYLE
-    TRANSLATION_LANGUAGE = settings.TRANSLATION_LANGUAGE
 
 # opening file with data
 try:
@@ -33,15 +31,19 @@ to_learn = data.to_dict(orient='records')
 current_card = {}
 
 
-def settings_button_pressed(change_language=None, change_style=None):
-    global settings_df
+def settings_button_pressed():
     settings_window = Tk()
-    selected_language = StringVar()
-    selected_style = StringVar()
+    selected_language = StringVar(settings_window)
+    selected_style = StringVar(settings_window)
+
     settings_window.title('Settings')
     settings_window.geometry('432x300')
     settings_window.config(pady=10, padx=10)
     settings_window.rowconfigure((0, 1), weight=1, pad=5)
+
+    def language_selection():
+        selected_language_code = selected_language.get()
+        return selected_language_code
 
     languages_label = LabelFrame(
         settings_window,
@@ -49,19 +51,41 @@ def settings_button_pressed(change_language=None, change_style=None):
         font=('Arial', 10, 'bold')
     )
     languages_label.grid(row=0, column=0, ipadx=1, ipady=5, sticky='NW')
-    # TODO: read about choice with Datiobutton in tkinter
-    languages = {'Deutsch': 'de', 'English': 'en', 'Türkçe': 'tr', 'Русский': 'ru'}
-    for language, code in languages.items():
-        rb = Radiobutton(
-            languages_label,
-            text=language,
-            value=code,
-            variable=selected_language,
-            command=change_language)
-        rb.pack(expand=True, fill='y', side=LEFT)
+    ru = Radiobutton(
+        languages_label,
+        text='Русский',
+        value='ru',
+        variable=selected_language,
+        command=language_selection)
+    ru.pack(expand=True, fill='y', side=LEFT)
 
-    def change_language():
-        settings_df['TRANSLATION_LANGUAGE'] = code
+    de = Radiobutton(
+        languages_label,
+        text='Deutsch',
+        value='de',
+        variable=selected_language,
+        command=language_selection)
+    de.pack(expand=True, fill='y', side=LEFT)
+
+    en = Radiobutton(
+        languages_label,
+        text='English',
+        value='en',
+        variable=selected_language,
+        command=language_selection)
+    en.pack(expand=True, fill='y', side=LEFT)
+
+    tr = Radiobutton(
+        languages_label,
+        text='Türkçe',
+        value='tr',
+        variable=selected_language,
+        command=language_selection)
+    tr.pack(expand=True, fill='y', side=LEFT)
+
+    def alphabet_selection():
+        selected_alphabet = selected_style.get()
+        return selected_alphabet
 
     alphabets_label = LabelFrame(
         settings_window,
@@ -76,24 +100,25 @@ def settings_button_pressed(change_language=None, change_style=None):
             text=style,
             value=style,
             variable=selected_style,
-            command=change_style)
+            command=alphabet_selection)
         rb.pack(expand=True, fill='y', side=LEFT)
 
-    def change_style():
-        settings_df['ALPHABET_STYLE'] = selected_style
-
     def save_settings():
-        settings_path = Path('settings/settings.csv')
+        global settings_df
+        language = selected_language.get()
+        alphabet = selected_style.get()
+        print(language, alphabet)
+        settings_df['TRANSLATION_LANGUAGE'] = [language]
+        settings_df['ALPHABET_STYLE'] = [alphabet]
+        settings_path = Path('settings')
         if not settings_path.exists():
-            dir_path = Path('./settings')
-            Path.mkdir(dir_path)
+            Path.mkdir(settings_path)
         settings_df.to_csv('settings/settings.csv', index=False)
 
         settings_window.destroy()
 
     save_button = Button(settings_window, text='Save settings', command=save_settings)
     save_button.grid(row=2, column=0, sticky='NE')
-
 
     settings_window.mainloop()
 
