@@ -7,6 +7,7 @@ from tkinter import Tk, Button, Canvas, PhotoImage, messagebox, Label, LabelFram
 
 import pandas as pd
 from PIL import Image, ImageTk
+from playsound import playsound
 
 BACKGROUND_COLOR = "#B1DDC6"
 SETTINGS_PATH = Path('settings/settings.csv')
@@ -182,8 +183,8 @@ def flip_card():
     sr_flag_image = Image.open(f'images/flags/{TRANSLATION_LANGUAGE}.png')
     sr_flag_image = ImageTk.PhotoImage(sr_flag_image)
     canvas.itemconfig(flag_image_sr, image=sr_flag_image)
-
     canvas.itemconfig(card_background, image=card_back_img)
+    playsound(current_card['sound_url'])
 
 
 # main window
