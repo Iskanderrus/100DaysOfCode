@@ -25,8 +25,8 @@ while True:
     data = response.json()
     # iss position
     iss_position = data['iss_position']
-    iss_lon = iss_position['longitude']
-    iss_lat = iss_position['latitude']
+    iss_lon = float(iss_position['longitude'])
+    iss_lat = float(iss_position['latitude'])
 
     current_hour = datetime.datetime.now().hour
     if (su_sunrise > current_hour > su_sunset) and (45.5 < iss_lat < 46.5) and (19 < iss_lon < 20):
