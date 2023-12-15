@@ -1,17 +1,9 @@
 import requests
 
+from data import get_questions
 from models import Question, Quiz
 
-amount = int(input('How many questions do you want? Please provide a number in range 10 to 49\n'))
-difficulty = input('Select difficulty level: easy, medium or hard\n')
-URL = f'https://opentdb.com/api.php?amount={amount}&difficulty={difficulty}&type=boolean'
-
-respond = requests.get(url=URL)
-questions = respond.json()['results']
-for question in questions:
-    question['question'] = question['question'].replace('&quot;', '"')
-    question['question'] = question['question'].replace('&#039;', '\'')
-
+questions = get_questions()
 score = 0
 questions_bank = [Question(question=question['question'],
                            correct_answer=question['correct_answer'])
