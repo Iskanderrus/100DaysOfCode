@@ -3,12 +3,13 @@
 from tkinter import Tk, Button, Label, Canvas
 
 from PIL import Image, ImageTk
-
+from models import Quiz
 THEME_COLOR = 'steelblue4'
 
 
 class QuizInterface:
-    def __init__(self):
+    def __init__(self, quiz_brain: Quiz):
+        self.quiz = quiz_brain
         self.root = Tk()
         self.root.geometry('600x750')
         self.root.title('QUIZ')
@@ -20,6 +21,7 @@ class QuizInterface:
         self.question_text = self.canvas.create_text(
             250,
             250,
+            width=480,
             text='Some question text',
             font=('Arial', 20, 'italic'),
             fill=THEME_COLOR)
@@ -60,5 +62,10 @@ class QuizInterface:
         )
 
         self.score_label.grid(row=0, column=1)
+        self.get_next_question()
 
         self.root.mainloop()
+
+    def get_next_question(self):
+        q_text = self.quiz.chose_question()
+        self.canvas.itemconfig(self.question_text, text=q_text)

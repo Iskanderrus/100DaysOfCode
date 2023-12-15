@@ -21,7 +21,8 @@ class Quiz:
         """ Function to select a question from the list of question models """
         self.question = choice(self.questions)
         self.questions.remove(self.question)
-        return self.question
+        question_text = self.question.question
+        return question_text
 
     def ask_user(self):
         """ Function to ask a question by requesting user to prompt 't' for True or 'f' for False
