@@ -1,45 +1,64 @@
 # בס״ד
 
-from tkinter import Tk, Button, Label, Canvas, E, W, NE, NW, SW
+from tkinter import Tk, Button, Label, Canvas
 
 from PIL import Image, ImageTk
 
-root = Tk()
-root.geometry('600x750')
-root.title('QUIZ')
-root.configure(bg='steelblue4', padx=50, pady=15)
+THEME_COLOR = 'steelblue4'
 
-canvas = Canvas(root,  bg='white', border=0, highlightthickness=0)
-canvas.configure(width=500, height=500)
-canvas.grid(row=1, column=0, columnspan=2)
 
-# buttons
-true_button_image = Image.open('images/true.png')
-true_button_image = ImageTk.PhotoImage(true_button_image)
-true_button = Button(
-    root,
-    image=true_button_image,
-    border=0,
-    activebackground='steelblue4',
-    bg='steelblue4',
-    highlightthickness=0
-)
-true_button.grid(row=2, column=0, padx=30, pady=10)
+class QuizInterface:
+    def __init__(self):
+        self.root = Tk()
+        self.root.geometry('600x750')
+        self.root.title('QUIZ')
+        self.root.configure(bg=THEME_COLOR, padx=50, pady=15)
 
-false_button_image = Image.open('images/false.png')
-false_button_image = ImageTk.PhotoImage(false_button_image)
-false_button = Button(
-    root,
-    image=false_button_image,
-    border=0,
-    activebackground='steelblue4',
-    bg='steelblue4',
-    highlightthickness=0
-)
-false_button.grid(row=2, column=1,pady=10)
+        self.canvas = Canvas(self.root, bg='white', border=0, highlightthickness=0)
+        self.canvas.configure(width=500, height=500)
+        self.canvas.grid(row=1, column=0, columnspan=2)
+        self.question_text = self.canvas.create_text(
+            250,
+            250,
+            text='Some question text',
+            font=('Arial', 20, 'italic'),
+            fill=THEME_COLOR)
 
-# labels
-score_label = Label(root, text="Your Score: ", font=('Arial', 15, 'bold'), pady=30, bg='steelblue4', foreground='white')
-score_label.grid(row=0, column=1)
+        # buttons
+        true_button_image = Image.open('images/true.png')
+        true_button_image = ImageTk.PhotoImage(true_button_image)
+        self.true_button = Button(
+            self.root,
+            image=true_button_image,
+            border=0,
+            activebackground=THEME_COLOR,
+            bg=THEME_COLOR,
+            highlightthickness=0
+        )
+        self.true_button.grid(row=2, column=0, padx=30, pady=10)
 
-root.mainloop()
+        false_button_image = Image.open('images/false.png')
+        false_button_image = ImageTk.PhotoImage(false_button_image)
+        self.false_button = Button(
+            self.root,
+            image=false_button_image,
+            border=0,
+            activebackground=THEME_COLOR,
+            bg=THEME_COLOR,
+            highlightthickness=0
+        )
+        self.false_button.grid(row=2, column=1, pady=10)
+
+        # labels
+        self.score_label = Label(
+            self.root,
+            text="Your Score: 0",
+            font=('Arial', 15, 'bold'),
+            pady=30,
+            bg='steelblue4',
+            foreground='white'
+        )
+
+        self.score_label.grid(row=0, column=1)
+
+        self.root.mainloop()
