@@ -1,3 +1,5 @@
+# בס״ד
+
 from data import get_questions
 from models import Quiz
 from ui import QuizInterface

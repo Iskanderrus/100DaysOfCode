@@ -1,6 +1,4 @@
-import distutils
-from random import choice
-
+# בס״ד
 
 class Question:
     """ A model to create a question using text of the question and the correct answer containing in the resource

@@ -1,9 +1,9 @@
 # בס״ד
-import time
 from _tkinter import TclError
 from tkinter import Tk, Button, Label, Canvas
 
 from PIL import Image, ImageTk
+
 from models import Quiz
 
 THEME_COLOR = 'steelblue4'
@@ -78,7 +78,10 @@ class QuizInterface:
         try:
             self.q_text, self.question_answer = self.quiz.chose_question()
         except TypeError:
+            self.root.geometry('600x550')
             self.score_label.destroy()
+            self.true_button.destroy()
+            self.false_button.destroy()
             self.canvas.config(background='white')
             self.canvas.itemconfig(
                 self.question_text,
@@ -95,22 +98,23 @@ class QuizInterface:
         else:
             self.quiz.question_number += 1
 
+    def feedback(self, color):
+        self.canvas.config(background=color)
+        self.root.after(1000, self.get_next_question)
+
     def false_button_pressed(self):
         self.quiz.user_respond = 'False'
         if self.quiz.assessment():
-            self.canvas.config(background='green')
-            self.root.after(1000, self.get_next_question)
+            self.feedback('green')
         else:
-            self.canvas.config(background='red')
-            self.root.after(1000, self.get_next_question)
+            self.feedback('red')
         self.scorer()
 
     def true_button_pressed(self):
         self.quiz.user_respond = 'True'
         if self.quiz.assessment():
-            self.canvas.config(background='green')
-            self.root.after(1000, self.get_next_question)
+
+            self.feedback('green')
         else:
-            self.canvas.config(background='red')
-            self.root.after(1000, self.get_next_question)
+            self.feedback('red')
         self.scorer()
