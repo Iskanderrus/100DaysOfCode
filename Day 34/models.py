@@ -29,3 +29,4 @@ class Quiz:
         """ Function to make assessment of the provided answer. Counts score. """
         if self.question.correct_answer == self.user_respond:
             self.score += 1
+            return True

@@ -74,10 +74,12 @@ class QuizInterface:
         self.root.mainloop()
 
     def get_next_question(self):
+        self.canvas.config(background='white')
         try:
             self.q_text, self.question_answer = self.quiz.chose_question()
         except TypeError:
             self.score_label.destroy()
+            self.canvas.config(background='white')
             self.canvas.itemconfig(
                 self.question_text,
                 text=f'No questions left\nYour Score: {self.quiz.score} out of {len(self.quiz.questions)}'
@@ -92,14 +94,23 @@ class QuizInterface:
             pass
         else:
             self.quiz.question_number += 1
-            self.get_next_question()
 
     def false_button_pressed(self):
         self.quiz.user_respond = 'False'
-        self.quiz.assessment()
+        if self.quiz.assessment():
+            self.canvas.config(background='green')
+            self.root.after(1000, self.get_next_question)
+        else:
+            self.canvas.config(background='red')
+            self.root.after(1000, self.get_next_question)
         self.scorer()
 
     def true_button_pressed(self):
         self.quiz.user_respond = 'True'
-        self.quiz.assessment()
+        if self.quiz.assessment():
+            self.canvas.config(background='green')
+            self.root.after(1000, self.get_next_question)
+        else:
+            self.canvas.config(background='red')
+            self.root.after(1000, self.get_next_question)
         self.scorer()
