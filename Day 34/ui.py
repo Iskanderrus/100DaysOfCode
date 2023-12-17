@@ -1,14 +1,19 @@
 # בס״ד
-
+import time
+from _tkinter import TclError
 from tkinter import Tk, Button, Label, Canvas
 
 from PIL import Image, ImageTk
 from models import Quiz
+
 THEME_COLOR = 'steelblue4'
 
 
 class QuizInterface:
     def __init__(self, quiz_brain: Quiz):
+        self.right_answers_count = 0
+        self.question_answer = None
+        self.q_text = None
         self.quiz = quiz_brain
         self.root = Tk()
         self.root.geometry('600x750')
@@ -35,7 +40,8 @@ class QuizInterface:
             border=0,
             activebackground=THEME_COLOR,
             bg=THEME_COLOR,
-            highlightthickness=0
+            highlightthickness=0,
+            command=self.true_button_pressed
         )
         self.true_button.grid(row=2, column=0, padx=30, pady=10)
 
@@ -47,14 +53,15 @@ class QuizInterface:
             border=0,
             activebackground=THEME_COLOR,
             bg=THEME_COLOR,
-            highlightthickness=0
+            highlightthickness=0,
+            command=self.false_button_pressed
         )
         self.false_button.grid(row=2, column=1, pady=10)
 
         # labels
         self.score_label = Label(
             self.root,
-            text="Your Score: 0",
+            text=f"Your Score: {self.quiz.score}",
             font=('Arial', 15, 'bold'),
             pady=30,
             bg='steelblue4',
@@ -67,5 +74,32 @@ class QuizInterface:
         self.root.mainloop()
 
     def get_next_question(self):
-        q_text = self.quiz.chose_question()
-        self.canvas.itemconfig(self.question_text, text=q_text)
+        try:
+            self.q_text, self.question_answer = self.quiz.chose_question()
+        except TypeError:
+            self.score_label.destroy()
+            self.canvas.itemconfig(
+                self.question_text,
+                text=f'No questions left\nYour Score: {self.quiz.score} out of {len(self.quiz.questions)}'
+            )
+        else:
+            self.canvas.itemconfig(self.question_text, text=self.q_text)
+
+    def scorer(self):
+        try:
+            self.score_label.config(text=f'Your Score: {self.quiz.score}')
+        except TclError:
+            pass
+        else:
+            self.quiz.question_number += 1
+            self.get_next_question()
+
+    def false_button_pressed(self):
+        self.quiz.user_respond = 'False'
+        self.quiz.assessment()
+        self.scorer()
+
+    def true_button_pressed(self):
+        self.quiz.user_respond = 'True'
+        self.quiz.assessment()
+        self.scorer()
