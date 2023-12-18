@@ -1,10 +1,19 @@
 # בס״ד
+import os
 import time
 
 import requests
 
-with open('key.txt', 'r') as f:
-    API_KEY = f.read().strip()
+from twilio.rest import Client
+
+# twilio credentials
+ACCOUNT_SID = os.environ.get('ACCOUNT_SID')
+AUTH_TOKEN = os.environ.get('AUTH_TOKEN')
+US_PHONE_NUMBER = os.environ.get('US_PHONE_NUMBER')
+
+# openweather credentials
+API_KEY = os.environ.get('OWM_API_KEY')
+
 
 # weather forecast for the next 5 days - forested for every 3 hours
 url = 'https://api.openweathermap.org/data/2.5/forecast'
@@ -33,6 +42,10 @@ for hour in data['list'][0:5]:
     # if weather id less than 700 and time is between 6 am and 4 pm - give a message
     if (condition_code < 700 and
             16 > int(hour_str) > 6):
-        print(forecast_time,
-              ' возьми зонт: ',
-              description)
+        client = Client(ACCOUNT_SID, AUTH_TOKEN)
+        message = client.messages.create(
+            body=f'Take an umbrella. It is {description} today ☔',
+            from_=US_PHONE_NUMBER,
+            to='+381629448617'
+        )
+        print(message.status)
