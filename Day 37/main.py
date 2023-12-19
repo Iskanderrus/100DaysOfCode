@@ -4,15 +4,32 @@ import os
 import requests
 
 token = os.environ['PIXELA_TOKEN']
+USERNAME = 'iskanderrus'
 
-# creating user
 url = 'https://pixe.la/v1/users'
 user_parameters = {
     'token': token,
-    'username': 'iskanderrus',
+    'username': USERNAME,
     'agreeTermsOfService': 'yes',
     'notMinor': 'yes',
 }
 
-response = requests.post(url=url, json=user_parameters)
+# # creating user
+# response = requests.post(url=url, json=user_parameters)
+# print(response.text)
+
+# creating a new graph
+graph_url = f'{url}/{USERNAME}/graphs'
+headers = {
+    'X-USER-TOKEN': token
+}
+graph_config = {
+    'id': f'{USERNAME}01g',
+    'name': 'Reading Python Books',
+    'unit': 'pg',
+    'type': 'int',
+    'color': 'ajisai'
+}
+
+response = requests.post(url=graph_url, json=graph_config, headers=headers)
 print(response.text)
