@@ -1,6 +1,7 @@
 # בס״ד
 import os
 import time
+from datetime import datetime
 
 import requests
 
@@ -34,11 +35,9 @@ headers = {
 #
 # response = requests.post(url=graph_url, json=graph_config, headers=headers)
 
-from datetime import datetime
+# adding a pixel to the graph
+today = datetime.now().strftime('%Y%m%d')
 
-today = str(datetime.now()).split(' ')[0].replace('-', '')
-print(today)
-print(type(today))
 python_books_url = f'{graph_url}/{USERNAME}01g'
 
 python_graph_config = {
