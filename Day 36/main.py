@@ -1,41 +1,49 @@
 # בס״ד
 import os
+from datetime import datetime
+
 import pandas as pd
 import requests
 
-STOCK = "TSLA"
-COMPANY_NAME = "Tesla Inc"
+# STOCK = "TSLA"
+# COMPANY_NAME = "Tesla Inc"
+#
+# ## STEP 1: Use https://www.alphavantage.co
+# stock_key = os.environ['ALPHA_VANTAGE_API_KEY']
+#
+# url = 'https://www.alphavantage.co/query'
+# parameters = {
+#     'function': 'TIME_SERIES_DAILY',
+#     'symbol': STOCK,
+#     'apikey': stock_key
+# }
+# r = requests.get(url, params=parameters)
+# r.raise_for_status()
+# data = r.json()
+# df = pd.DataFrame(data['Time Series (Daily)'])
+# df = df.T
+# df.rename(columns={
+#     '1. open': 'open',
+#     '2. high': 'high',
+#     '3. low': 'low',
+#     '4. close': 'close',
+#     '5. volume': 'volume'
+# },
+#     inplace=True
+# )
+#
+# df = df.astype(float)
+#
+# df['diff'] = df['close'].diff()
+# df['pct_change'] = df['close'].pct_change()
+# df = df[abs(df['pct_change']) >= 0.05]
+# df.to_csv('tesla_data.csv')
+df = pd.read_csv('tesla_data.csv')
+df.rename(columns={'Unnamed: 0': 'date'}, inplace=True)
+df['date'] = pd.to_datetime(df['date'], format='%Y-%M-%d').dt.to_period(freq="D")
+dates = df.date
 
-## STEP 1: Use https://www.alphavantage.co
-stock_key = os.environ['ALPHA_VANTAGE_API_KEY']
-
-url = 'https://www.alphavantage.co/query'
-parameters = {
-    'function': 'TIME_SERIES_DAILY',
-    'symbol': STOCK,
-    'apikey': stock_key
-}
-r = requests.get(url, params=parameters)
-r.raise_for_status()
-data = r.json()
-df = pd.DataFrame(data['Time Series (Daily)'])
-df = df.T
-df.rename(columns={
-    '1. open': 'open',
-    '2. high': 'high',
-    '3. low': 'low',
-    '4. close': 'close',
-    '5. volume': 'volume'
-},
-    inplace=True
-)
-
-df = df.astype(float)
-
-df['diff'] = df['close'].diff()
-df['pct_change'] = df['close'].pct_change()
-
-print(df[abs(df['pct_change']) > 0.05])
+print(dates)
 
 # When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
 
