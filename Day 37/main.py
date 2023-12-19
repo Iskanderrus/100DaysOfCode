@@ -1,5 +1,6 @@
 # בס״ד
 import os
+import time
 
 import requests
 
@@ -21,15 +22,32 @@ user_parameters = {
 # creating a new graph
 graph_url = f'{url}/{USERNAME}/graphs'
 headers = {
-    'X-USER-TOKEN': token
+    'X-USER-TOKEN': token,
 }
-graph_config = {
-    'id': f'{USERNAME}01g',
-    'name': 'Reading Python Books',
-    'unit': 'pg',
-    'type': 'int',
-    'color': 'ajisai'
+# graph_config = {
+#     'id': f'{USERNAME}01g',
+#     'name': 'Reading Python Books',
+#     'unit': 'pg',
+#     'type': 'int',
+#     'color': 'ajisai'
+# }
+#
+# response = requests.post(url=graph_url, json=graph_config, headers=headers)
+
+from datetime import datetime
+
+today = str(datetime.now()).split(' ')[0].replace('-', '')
+print(today)
+print(type(today))
+python_books_url = f'{graph_url}/{USERNAME}01g'
+
+python_graph_config = {
+    'date': today,
+    'quantity': '5',
 }
 
-response = requests.post(url=graph_url, json=graph_config, headers=headers)
-print(response.text)
+response = requests.post(url=python_books_url, json=python_graph_config, headers=headers)
+while response.json()['message'] != 'Success.':
+    response = requests.post(url=python_books_url, json=python_graph_config, headers=headers)
+    print(response.text)
+    time.sleep(5)
