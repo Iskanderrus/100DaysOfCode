@@ -1,8 +1,9 @@
 # בס״ד
-
+import datetime
 import os
 
 import requests
+from datetime import datetime
 
 # personal data
 GENDER = os.environ.get("GENDER")
@@ -30,9 +31,24 @@ parameters = {
 
 # making request
 response = requests.post(exercise_endpoint, json=parameters, headers=headers)
-result = response.json()['exercises'][0]
+result = response.json()
 
-# extracting data
-print(f"Duration: {result['exercises'][0]['duration_min']}")
-print(f"Calories burned: {result['exercises'][0]['nf_calories']}")
-print(f"Correct name: {result['exercises'][0]['name']}")
+# adding data to a spreadsheet
+current_date = datetime.now().strftime('%Y-%m-%d')
+current_time = datetime.now().strftime('%H:%M:%S')
+
+sheet_url = 'https://api.sheety.co/63f4849df2c2706c138bb26316b12333/myWorkouts/workouts'
+for exercise in result["exercises"]:
+    sheet_inputs = {
+        "workout": {
+            "date": current_date,
+            "time": current_time,
+            "exercise": exercise["name"].title(),
+            "duration": exercise["duration_min"],
+            "calories": exercise["nf_calories"]
+        }
+    }
+
+    sheet_response = requests.post(sheet_url, json=sheet_inputs)
+
+    print(sheet_response.text)
