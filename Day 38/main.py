@@ -15,6 +15,8 @@ AGE = os.environ.get("AGE")
 APP_ID = os.environ.get('APP_ID')
 API_KEY = os.environ.get('API_KEY')
 
+#
+BEARER_TOKEN = os.environ.get('BEARER_TOKEN')
 # request data
 exercise_endpoint = "https://trackapi.nutritionix.com/v2/natural/exercise"
 headers = {
@@ -37,6 +39,10 @@ result = response.json()
 current_date = datetime.now().strftime('%Y-%m-%d')
 current_time = datetime.now().strftime('%H:%M:%S')
 
+bearer_headers = {
+    "Authorization": BEARER_TOKEN
+}
+
 sheet_url = 'https://api.sheety.co/63f4849df2c2706c138bb26316b12333/myWorkouts/workouts'
 for exercise in result["exercises"]:
     sheet_inputs = {
@@ -49,6 +55,6 @@ for exercise in result["exercises"]:
         }
     }
 
-    sheet_response = requests.post(sheet_url, json=sheet_inputs)
+    sheet_response = requests.post(url=sheet_url, json=sheet_inputs, headers=bearer_headers)
 
     print(sheet_response.text)
