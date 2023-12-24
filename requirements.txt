@@ -7,3 +7,4 @@ pyperclip~=1.8.2
 requests~=2.31.0
 gTTS~=2.4.0
 twilio~=8.11.0
+beautifulsoup4~=4.12.2

@@ -4,6 +4,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/Day 24/output" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/Day 29/output" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.10 (100DaysOfCode)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
