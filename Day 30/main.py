@@ -14,10 +14,10 @@ FONT_NAME = 'TkMenuFont'
 DATA_FILE = Path('../../../Documents/password_manager_log.json')
 
 # default values for the password
-lower_case_number = 6
-upper_case_number = 4
+lower_case_number = 10
+upper_case_number = 8
 digits_number = 5
-symbols_number = 4
+symbols_number = 5
 
 
 def search_button_func():
